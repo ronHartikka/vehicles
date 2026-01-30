@@ -1,0 +1,89 @@
+{
+  "environment": {
+    "fields": [
+      {
+        "type": "temperature",
+        "sources": [
+          {
+            "position": [200, 100],
+            "intensity": 50000,
+            "radius": 15,
+            "falloff": "inverse_square"
+          }
+        ]
+      }
+    ]
+  },
+
+  "sensors": {
+    "heat-sensor-1": {
+      "stimulus_unit": "K",
+      "response_function": {
+        "type": "inverse",
+        "gain": 50.0
+      }
+    }
+  },
+
+  "vehicles": [
+    {
+      "name": "explorer-1",
+      "position": [0, 120],
+      "heading": 0,
+      "body_radius": 8,
+      "axle_width": 12,
+      "sensor_mounts": [
+        {
+          "id": "SL",
+          "sensor": "heat-sensor-1",
+          "side": "left",
+          "angle_offset": 0.3,
+          "distance_from_center": 8
+        },
+        {
+          "id": "SR",
+          "sensor": "heat-sensor-1",
+          "side": "right",
+          "angle_offset": -0.3,
+          "distance_from_center": 8
+        }
+      ],
+      "motors": [
+        {
+          "id": "ML",
+          "side": "left",
+          "max_speed": 150.0,
+          "gain": 1.0
+        },
+        {
+          "id": "MR",
+          "side": "right",
+          "max_speed": 150.0,
+          "gain": 1.0
+        }
+      ],
+      "connections": [
+        { "from_sensor": "SL", "to_motor": "MR", "weight": 1.0 },
+        { "from_sensor": "SR", "to_motor": "ML", "weight": 1.0 }
+      ]
+    }
+  ],
+
+  "simulation": {
+    "dt": 0.05,
+    "method": "euler"
+  },
+
+  "view": {
+    "center": [150, 100],
+    "zoom": 2.0,
+    "window_width": 1024,
+    "window_height": 768
+  },
+
+  "colors": {
+    "temperature": [255, 80, 40],
+    "light": [255, 240, 60],
+    "chemical": [60, 200, 100]
+  }
+}
