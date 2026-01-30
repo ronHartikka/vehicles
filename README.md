@@ -69,6 +69,16 @@ The key insight: **same hardware, different wiring, different behavior.**
 | Uncrossed (ipsilateral) | - | Love -- approaches, slows near source |
 | Crossed (contralateral) | - | Explorer -- avoids, slows near source |
 
+## Included Configs
+
+| File | Vehicle Name | Wiring | Response | Behavior |
+|------|-------------|--------|----------|----------|
+| `vehicle_2a_fear.json` | fearful-1 | uncrossed | linear | Fear |
+| `vehicle_2a_1_fear.json` | fearful-1 | uncrossed | linear | Fear (closer start) |
+| `vehicle_2b_aggression.json` | aggressive-1 | crossed | linear | Aggression |
+| `vehicle_3a_love.json` | love-1 | uncrossed | inverse | Love |
+| `vehicle_3b_explorer.json` | explorer-1 | crossed | inverse | Explorer |
+
 ## Configuration
 
 Scenarios are defined in JSON files. See `configs/vehicle_2a_fear.json` for a complete example.

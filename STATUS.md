@@ -2,7 +2,7 @@
 
 ## Current Status
 
-Initial implementation complete. Simulation engine and pygame GUI are functional for Vehicles 1-3. Ready for testing and parameter tuning.
+Vehicles 2 and 3 implemented and tested. All four classic Braitenberg behaviors (fear, aggression, love, explorer) working via config files. GUI functional with playback controls, pan/zoom, trails, field overlay, and live vehicle diagnostics.
 
 ## What We've Done
 
@@ -21,18 +21,25 @@ Initial implementation complete. Simulation engine and pygame GUI are functional
    - `camera.py` - World-to-screen transforms with pan/zoom
    - `renderer.py` - Sources, vehicles, trails, field overlay
    - `app.py` - Pygame event loop, keyboard/mouse controls, status bar, info panel
-8. ✅ Test config: `configs/vehicle_2a_fear.json` (Vehicle 2a, ipsilateral, fear behavior)
+8. ✅ Vehicle configs created and tested:
+
+| File | Vehicle Name | Wiring | Response | Behavior |
+|------|-------------|--------|----------|----------|
+| `vehicle_2a_fear.json` | fearful-1 | uncrossed | linear | Fear |
+| `vehicle_2a_1_fear.json` | fearful-1 | uncrossed | linear | Fear (closer start) |
+| `vehicle_2b_aggression.json` | aggressive-1 | crossed | linear | Aggression |
+| `vehicle_3a_love.json` | love-1 | uncrossed | inverse | Love |
+| `vehicle_3b_explorer.json` | explorer-1 | crossed | inverse | Explorer |
+
 9. ✅ Headless verification: Vehicle 2a veers away from heat source as expected
+10. ✅ GUI tested interactively: all four behaviors confirmed visually
 
 ## Next Steps
 
-1. Test the GUI interactively and tune parameters
-2. Create `configs/vehicle_2b_aggression.json` (contralateral wiring)
-3. Create `configs/vehicle_1.json` (single sensor, straight line)
-4. Create `configs/vehicle_3a_love.json` and `vehicle_3b_explorer.json` (inhibitory connections)
-5. Test aggressive vehicle charging a source and oscillating around its boundary
-6. Multi-vehicle scenario configs
-7. Consider Vehicles 4+ (memory, learning, threshold logic)
+1. Create `configs/vehicle_1.json` (single sensor, straight line)
+2. Test aggressive vehicle charging a source and oscillating around its boundary
+3. Multi-vehicle scenario configs
+4. Consider Vehicles 4+ (memory, learning, threshold logic)
 
 ## How to Run
 
