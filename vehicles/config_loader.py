@@ -65,6 +65,7 @@ def load_config(path: str) -> ScenarioConfig:
                 side=m["side"],
                 gain=m["gain"],
                 max_speed=m["max_speed"],
+                base_voltage=m.get("base_voltage", 0.0),
             )
             for m in vd["motors"]
         ]

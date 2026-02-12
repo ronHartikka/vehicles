@@ -23,23 +23,75 @@ Vehicles 2 and 3 implemented and tested. All four classic Braitenberg behaviors 
    - `app.py` - Pygame event loop, keyboard/mouse controls, status bar, info panel
 8. ✅ Vehicle configs created and tested:
 
+### Vehicle 2 Configs (excitatory connections)
+
 | File | Vehicle Name | Wiring | Response | Behavior |
 |------|-------------|--------|----------|----------|
 | `vehicle_2a_fear.json` | fearful-1 | uncrossed | linear | Fear |
 | `vehicle_2a_1_fear.json` | fearful-1 | uncrossed | linear | Fear (closer start) |
 | `vehicle_2b_aggression.json` | aggressive-1 | crossed | linear | Aggression |
+
+### Vehicle 3 Configs (inhibitory connections via inverse response)
+
+| File | Vehicle Name | Wiring | Response | Behavior |
+|------|-------------|--------|----------|----------|
 | `vehicle_3a_love.json` | love-1 | uncrossed | inverse | Love |
 | `vehicle_3b_explorer.json` | explorer-1 | crossed | inverse | Explorer |
 
+### Vehicle 3C Configs (true inhibition via base_voltage)
+
+| File | Vehicle Name | Description |
+|------|-------------|-------------|
+| `vehicle_3c_love.json` | love-1 | Single temp source, base_voltage=10 (symmetric), uncrossed inhibitory (-1.0 weights). Demonstrates true inhibition. |
+
+### Vehicle 3C "Values" Configs (4 sensor types)
+
+These configs implement Braitenberg's "Vehicle with Values" - a vehicle with 4 different sensor types, each with different wiring patterns:
+
+| Stimulus | Wiring | Weight | Behavior | Color |
+|----------|--------|--------|----------|-------|
+| Light (lux) | uncrossed | +1.0 | Fear | Yellow |
+| Temperature (K) | uncrossed | -1.0 | Love | Red |
+| Oxygen (kPa) | crossed | -1.0 | Explorer | Blue |
+| Organic (ppm) | crossed | +1.0 | Aggression | Green |
+
+| File | Position | Heading | Base Voltages | Notes |
+|------|----------|---------|---------------|-------|
+| `vehicle_3c_values.json` | (0, 120) | 0 | 15/15 | Reference config, all sources at 40000 |
+| `vehicle_3c_values_blue.json` | (120, 120) | 0 | 15/15 | Temp source moved near light source |
+| `vehicle_3c_values_green.json` | (0, 100) | 1.0 | 15/15 | Different start angle |
+| `vehicle_3c_values_yellow.json` | (80, 120) | -0.15 | 65/65 | High base voltage, asymmetric organic wiring (0/1.0), max_speed=180 |
+| `vehicle_3c_values_red.json` | (150, 180) | 0 | 25/15 | **Asymmetric base voltages** - produces curved path |
+
+### Orbiting Configs (asymmetric base_voltage discovery)
+
+Discovery: Asymmetric base voltages (ML=25, MR=15) create stable orbital behavior around sources. The vehicle naturally curves due to the differential in base speeds, and the Fear response to light creates a stable attractor orbit.
+
+| File | Heading | Intensities | Notes |
+|------|---------|-------------|-------|
+| `vehicle_3c_values_orbits_yellow_1.json` | 0 | All 40000 | Orbit around yellow (light) source |
+| `vehicle_3c_values_orbits_yellow_2.json` | 1 | All 40000 | Different initial heading, same orbit |
+| `vehicle_3c_values_orbits_yellow_3.json` | 2 | All 40000 | Different initial heading, same orbit |
+| `vehicle_3c_values_orbits_yellow_4.json` | 2 | Light=1600000, others=0 | **Only light source active at high intensity. Orbit radius scales with intensity!** |
+
+Key findings:
+- Orbit radius increases with source intensity
+- Orbits are stable attractors - vehicle converges to same orbit from different initial headings
+- The asymmetric base_voltage creates a natural turning bias that, combined with the Fear response, produces circular motion
+
 9. ✅ Headless verification: Vehicle 2a veers away from heat source as expected
 10. ✅ GUI tested interactively: all four behaviors confirmed visually
+11. ✅ Vehicle 3C with base_voltage enables true inhibition (negative weights reduce motor input from a positive baseline)
+12. ✅ Vehicle 3C "Values" with 4 sensor types demonstrates emergent behavior from competing drives
+13. ✅ Discovered orbital behavior with asymmetric base_voltages - orbit radius scales with source intensity
 
 ## Next Steps
 
 1. Create `configs/vehicle_1.json` (single sensor, straight line)
-2. Test aggressive vehicle charging a source and oscillating around its boundary
-3. Multi-vehicle scenario configs
-4. Consider Vehicles 4+ (memory, learning, threshold logic)
+2. Multi-vehicle scenario configs (multiple vehicles interacting with same sources)
+3. Consider Vehicles 4+ (memory, learning, threshold logic)
+4. Explore more orbital configurations (different asymmetric base_voltage ratios, multiple orbiting vehicles)
+5. Parameter sensitivity analysis (how do orbit radius, speed, and stability depend on base_voltage difference and source intensity?)
 
 ## How to Run
 
@@ -93,10 +145,10 @@ specs/             Design specifications
 ### Signal Chain
 
 ```
-Field (K, lux) -> Sensor (V/K, V/lux) -> Volts -> Connection (weight) -> Volts -> Motor (speed/V) -> Speed
+Field (K, lux, kPa, ppm) -> Sensor (V/unit) -> Volts -> Connection (weight) -> Motor (base_voltage + weighted sum) -> Speed
 ```
 
-All sensors output volts. Voltages from different sensors can be summed at a motor.
+All sensors output volts. Motor input = base_voltage + sum of (connection_weight × sensor_voltage). Speed clamped to [0, max_speed].
 
 ### Key Design Decisions
 
@@ -105,6 +157,8 @@ All sensors output volts. Voltages from different sensors can be summed at a mot
 - **Unbounded world**: No boundaries. Camera viewport determines what's visible.
 - **Config-driven**: All parameters in JSON files. No code changes needed for new vehicle types.
 - **Fixed dt with accumulator**: Simulation steps at exact dt regardless of frame rate.
+- **base_voltage for true inhibition**: Motors have a `base_voltage` parameter that sets resting input before sensor contributions. Negative connection weights subtract from this baseline, enabling true inhibitory behavior (Vehicle 3) without requiring inverse response functions.
+- **Asymmetric base_voltage for curved motion**: Setting different base_voltages for left/right motors creates a constant turning bias, which combined with stimulus responses can produce orbital behavior.
 
 ### Python Environment
 

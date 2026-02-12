@@ -63,6 +63,7 @@ class Motor:
     side: str  # "left", "right"
     gain: float  # speed per volt
     max_speed: float
+    base_voltage: float = 0.0  # resting input voltage before connections
 
 
 @dataclass

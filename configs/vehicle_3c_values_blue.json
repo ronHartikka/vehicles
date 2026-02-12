@@ -1,0 +1,197 @@
+{
+  "environment": {
+    "fields": [
+      {
+        "type": "light",
+        "sources": [
+          {
+            "position": [80, 200],
+            "intensity": 40000,
+            "radius": 12,
+            "falloff": "inverse_square"
+          }
+        ]
+      },
+      {
+        "type": "temperature",
+        "sources": [
+          {
+            "position": [50, 199],
+            "intensity": 40000,
+            "radius": 12,
+            "falloff": "inverse_square"
+          }
+        ]
+      },
+      {
+        "type": "oxygen",
+        "sources": [
+          {
+            "position": [300, 50],
+            "intensity": 40000,
+            "radius": 12,
+            "falloff": "inverse_square"
+          }
+        ]
+      },
+      {
+        "type": "organic",
+        "sources": [
+          {
+            "position": [150, 50],
+            "intensity": 40000,
+            "radius": 12,
+            "falloff": "inverse_square"
+          }
+        ]
+      }
+    ]
+  },
+
+  "sensors": {
+    "light-sensor": {
+      "stimulus_unit": "lux",
+      "response_function": {
+        "type": "linear",
+        "gain": 1.0
+      }
+    },
+    "temp-sensor": {
+      "stimulus_unit": "K",
+      "response_function": {
+        "type": "linear",
+        "gain": 1.0
+      }
+    },
+    "o2-sensor": {
+      "stimulus_unit": "kPa",
+      "response_function": {
+        "type": "linear",
+        "gain": 1.0
+      }
+    },
+    "organic-sensor": {
+      "stimulus_unit": "ppm",
+      "response_function": {
+        "type": "linear",
+        "gain": 1.0
+      }
+    }
+  },
+
+  "vehicles": [
+    {
+      "name": "values-1",
+      "position": [120, 120],
+      "heading": 0,
+      "body_radius": 10,
+      "axle_width": 14,
+      "sensor_mounts": [
+        {
+          "id": "light-L",
+          "sensor": "light-sensor",
+          "side": "left",
+          "angle_offset": 0.3,
+          "distance_from_center": 10
+        },
+        {
+          "id": "light-R",
+          "sensor": "light-sensor",
+          "side": "right",
+          "angle_offset": -0.3,
+          "distance_from_center": 10
+        },
+        {
+          "id": "temp-L",
+          "sensor": "temp-sensor",
+          "side": "left",
+          "angle_offset": 0.3,
+          "distance_from_center": 10
+        },
+        {
+          "id": "temp-R",
+          "sensor": "temp-sensor",
+          "side": "right",
+          "angle_offset": -0.3,
+          "distance_from_center": 10
+        },
+        {
+          "id": "o2-L",
+          "sensor": "o2-sensor",
+          "side": "left",
+          "angle_offset": 0.3,
+          "distance_from_center": 10
+        },
+        {
+          "id": "o2-R",
+          "sensor": "o2-sensor",
+          "side": "right",
+          "angle_offset": -0.3,
+          "distance_from_center": 10
+        },
+        {
+          "id": "organic-L",
+          "sensor": "organic-sensor",
+          "side": "left",
+          "angle_offset": 0.3,
+          "distance_from_center": 10
+        },
+        {
+          "id": "organic-R",
+          "sensor": "organic-sensor",
+          "side": "right",
+          "angle_offset": -0.3,
+          "distance_from_center": 10
+        }
+      ],
+      "motors": [
+        {
+          "id": "ML",
+          "side": "left",
+          "max_speed": 80.0,
+          "gain": 1.0,
+          "base_voltage": 15.0
+        },
+        {
+          "id": "MR",
+          "side": "right",
+          "max_speed": 80.0,
+          "gain": 1.0,
+          "base_voltage": 15.0
+        }
+      ],
+      "connections": [
+        { "from_sensor": "light-L", "to_motor": "ML", "weight":  1.0 },
+        { "from_sensor": "light-R", "to_motor": "MR", "weight":  1.0 },
+
+        { "from_sensor": "temp-L",  "to_motor": "ML", "weight": -1.0 },
+        { "from_sensor": "temp-R",  "to_motor": "MR", "weight": -1.0 },
+
+        { "from_sensor": "o2-L",    "to_motor": "MR", "weight": -1.0 },
+        { "from_sensor": "o2-R",    "to_motor": "ML", "weight": -1.0 },
+
+        { "from_sensor": "organic-L", "to_motor": "MR", "weight":  1.0 },
+        { "from_sensor": "organic-R", "to_motor": "ML", "weight":  1.0 }
+      ]
+    }
+  ],
+
+  "simulation": {
+    "dt": 0.05,
+    "method": "euler"
+  },
+
+  "view": {
+    "center": [200, 120],
+    "zoom": 2.0,
+    "window_width": 1024,
+    "window_height": 768
+  },
+
+  "colors": {
+    "temperature": [255, 80, 40],
+    "light": [255, 240, 60],
+    "oxygen": [60, 160, 255],
+    "organic": [60, 200, 100]
+  }
+}

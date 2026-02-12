@@ -7,6 +7,8 @@ STIMULUS_UNIT_TO_FIELD_TYPE = {
     "K": "temperature",
     "lux": "light",
     "mol/m3": "chemical",
+    "kPa": "oxygen",
+    "ppm": "organic",
 }
 
 

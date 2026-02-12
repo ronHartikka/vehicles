@@ -66,13 +66,13 @@ class Simulation:
             sensor_voltages[mount.id] = voltage
             readings.append(SensorReading(mount.id, stimulus, voltage))
 
-        # 2. Compute motor input voltages
-        motor_input = {m.id: 0.0 for m in v.motors}
+        # 2. Compute motor input voltages (base_voltage + weighted sensor contributions)
+        motor_lookup = {m.id: m for m in v.motors}
+        motor_input = {m.id: m.base_voltage for m in v.motors}
         for conn in v.connections:
             motor_input[conn.to_motor] += conn.weight * sensor_voltages[conn.from_sensor]
 
         # 3. Compute wheel speeds
-        motor_lookup = {m.id: m for m in v.motors}
         motor_states = []
         wheel_speeds = {}
         for mid, voltage_in in motor_input.items():
