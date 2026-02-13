@@ -39,6 +39,7 @@ def load_config(path: str) -> ScenarioConfig:
             threshold=rf_data.get("threshold", 0.0),
             midpoint=rf_data.get("midpoint", 0.0),
             max_voltage=rf_data.get("max_voltage", 10.0),
+            peak_stimulus=rf_data.get("peak_stimulus", 100.0),
         )
         sensor_defs[name] = SensorDef(
             name=name,

@@ -49,6 +49,7 @@ class App:
         self.speed_multiplier = 1.0
         self.show_trail = False
         self.show_field_overlay = False
+        self.show_contours = False
         self.selected_vehicle: Optional[str] = None
         self.trails: Dict[str, List[Tuple[float, float]]] = {
             v.name: [] for v in self.config.vehicles
@@ -152,6 +153,8 @@ class App:
             self.show_trail = not self.show_trail
         elif key == pygame.K_f:
             self.show_field_overlay = not self.show_field_overlay
+        elif key == pygame.K_c:
+            self.show_contours = not self.show_contours
         elif key == pygame.K_z:
             self.camera.zoom_at(self.screen_w // 2, self.camera.screen_h // 2, 1.3)
         elif key == pygame.K_x:
@@ -231,6 +234,11 @@ class App:
                 color = self.colors.get(field.type, (128, 128, 128))
                 renderer.draw_field_overlay(sim_surface, self.camera, field, color)
 
+        # Field contours
+        if self.show_contours:
+            renderer.draw_field_contours(sim_surface, self.camera,
+                                         self.simulation.environment, self.colors)
+
         # Sources
         for field in self.simulation.environment.fields:
             color = self.colors.get(field.type, (128, 128, 128))
@@ -269,8 +277,9 @@ class App:
         time_str = f"t={self.simulation.time:.2f}"
         trail_str = "T:on" if self.show_trail else "T:off"
         field_str = "F:on" if self.show_field_overlay else "F:off"
+        contour_str = "C:on" if self.show_contours else "C:off"
 
-        text = f" {state}  |  Speed: {speed_str}  |  {time_str}  |  {trail_str}  {field_str}  |  Space:play  S:step  R:reset  Z/X:zoom  Arrows:pan  H:home  Q:quit"
+        text = f" {state}  |  Speed: {speed_str}  |  {time_str}  |  {trail_str}  {field_str}  {contour_str}  |  Space:play  S:step  R:reset  Z/X:zoom  Arrows:pan  H:home  Q:quit"
         surf = self.font.render(text, True, TEXT_COLOR)
         self.screen.blit(surf, (8, self.screen_h - STATUS_BAR_HEIGHT + 8))
 

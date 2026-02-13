@@ -14,12 +14,12 @@ Vehicles 2 and 3 implemented and tested. All four classic Braitenberg behaviors 
 6. ✅ Simulation engine (`vehicles/` package - pure Python, no pygame dependency)
    - `model.py` - Domain dataclasses
    - `fields.py` - Source falloff with interior linear transition (no point sources)
-   - `sensors.py` - Response functions (linear, threshold, sigmoid, logarithmic, inverse)
+   - `sensors.py` - Response functions (linear, threshold, sigmoid, logarithmic, inverse, bell)
    - `simulation.py` - Main loop step with differential drive kinematics
    - `config_loader.py` - JSON config loading
 7. ✅ GUI (`gui/` package)
    - `camera.py` - World-to-screen transforms with pan/zoom
-   - `renderer.py` - Sources, vehicles, trails, field overlay
+   - `renderer.py` - Sources, vehicles, trails, field overlay, field contours
    - `app.py` - Pygame event loop, keyboard/mouse controls, status bar, info panel
 8. ✅ Vehicle configs created and tested:
 
@@ -84,14 +84,23 @@ Key findings:
 11. ✅ Vehicle 3C with base_voltage enables true inhibition (negative weights reduce motor input from a positive baseline)
 12. ✅ Vehicle 3C "Values" with 4 sensor types demonstrates emergent behavior from competing drives
 13. ✅ Discovered orbital behavior with asymmetric base_voltages - orbit radius scales with source intensity
+14. ✅ Vehicle 4a: bell-curve sensor response (peak_stimulus, max_voltage). Vehicle orbits where equal-angular-velocity condition is met for both wheels.
+15. ✅ Field contour overlay (C key): draws labeled iso-stimulus circles around single-source fields. Supports inverse-square and inverse-linear falloff. Contour levels: 25, 50, 100, 150, 200, 400.
+
+### Vehicle 4 Configs (bell-curve response)
+
+| File | Vehicle Name | Wiring | Response | Behavior |
+|------|-------------|--------|----------|----------|
+| `vehicle_4a.json` | vehicle-4a | uncrossed | bell (peak=100, max_V=50) | Orbits source at stimulus≈200 contour |
 
 ## Next Steps
 
 1. Create `configs/vehicle_1.json` (single sensor, straight line)
 2. Multi-vehicle scenario configs (multiple vehicles interacting with same sources)
-3. Consider Vehicles 4+ (memory, learning, threshold logic)
+3. Consider Vehicles 4+ continued (memory, learning, threshold logic)
 4. Explore more orbital configurations (different asymmetric base_voltage ratios, multiple orbiting vehicles)
 5. Parameter sensitivity analysis (how do orbit radius, speed, and stability depend on base_voltage difference and source intensity?)
+6. Numerical contouring (marching squares) for multi-source fields
 
 ## How to Run
 
@@ -114,6 +123,7 @@ Starts paused. Press Space to run.
 | +/- | Speed up/slow down |
 | T | Toggle trail |
 | F | Toggle field overlay |
+| C | Toggle field contours |
 | Z/X | Zoom in/out |
 | Arrows | Pan |
 | H | Home (center on selected vehicle) |

@@ -137,3 +137,72 @@ def draw_field_overlay(surface: pygame.Surface, camera: Camera,
             pygame.draw.rect(overlay, (r, g, b, alpha), rect)
 
     surface.blit(overlay, (0, 0))
+
+
+CONTOUR_LEVELS = [25, 50, 100, 150, 200, 400]
+
+
+def _contour_radius(source: Source, stimulus_level: float) -> Optional[float]:
+    """Compute the distance from source center where stimulus equals the level.
+
+    Returns None if the contour falls inside the source radius or the falloff
+    type doesn't support analytic contours.
+    """
+    if stimulus_level <= 0:
+        return None
+
+    if source.falloff == "inverse_square":
+        # stimulus = intensity / d^2  =>  d = sqrt(intensity / stimulus)
+        d = math.sqrt(source.intensity / stimulus_level)
+    elif source.falloff == "inverse_linear":
+        # stimulus = intensity / d  =>  d = intensity / stimulus
+        d = source.intensity / stimulus_level
+    else:
+        return None  # no simple analytic contour for constant/gaussian
+
+    # Only draw contours outside the source body
+    if d < source.radius:
+        return None
+    return d
+
+
+def _dim_color(color: Tuple[int, int, int], factor: float = 0.4) -> Tuple[int, int, int]:
+    return (int(color[0] * factor), int(color[1] * factor), int(color[2] * factor))
+
+
+def draw_field_contours(surface: pygame.Surface, camera: Camera,
+                        environment: Environment,
+                        colors: Dict[str, Tuple[int, int, int]]):
+    """Draw labeled stimulus contour circles around each source.
+
+    Only draws analytic contours for single-source fields with
+    inverse-square or inverse-linear falloff.
+    """
+    label_font = pygame.font.SysFont("monospace", 11)
+
+    for field in environment.fields:
+        if len(field.sources) != 1:
+            continue  # analytic circles only valid for single-source fields
+
+        source = field.sources[0]
+        base_color = colors.get(field.type, (128, 128, 128))
+        line_color = _dim_color(base_color, 0.5)
+        sx, sy = camera.world_to_screen(source.position.x, source.position.y)
+
+        for level in CONTOUR_LEVELS:
+            r_world = _contour_radius(source, level)
+            if r_world is None:
+                continue
+
+            r_px = camera.world_to_screen_dist(r_world)
+            if r_px < 4 or r_px > 4000:
+                continue
+
+            pygame.draw.circle(surface, line_color, (sx, sy), r_px, 1)
+
+            # Label at the right side of the contour
+            label_x = sx + r_px + 3
+            label_y = sy - 6
+            if label_x < surface.get_width() - 40:
+                label_surf = label_font.render(f"{level}", True, line_color)
+                surface.blit(label_surf, (label_x, label_y))
