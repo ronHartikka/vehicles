@@ -84,7 +84,7 @@ Key findings:
 11. ✅ Vehicle 3C with base_voltage enables true inhibition (negative weights reduce motor input from a positive baseline)
 12. ✅ Vehicle 3C "Values" with 4 sensor types demonstrates emergent behavior from competing drives
 13. ✅ Discovered orbital behavior with asymmetric base_voltages - orbit radius scales with source intensity
-14. ✅ Vehicle 4a: bell-curve sensor response (peak_stimulus, max_voltage). Vehicle orbits where equal-angular-velocity condition is met for both wheels.
+14. ✅ Vehicle 4a: bell-curve sensor response (peak_stimulus, max_voltage). Vehicle orbits where equal-angular-velocity condition is met for both wheels. See [docs/orbit-analysis.md](docs/orbit-analysis.md).
 15. ✅ Field contour overlay (C key): draws labeled iso-stimulus circles around single-source fields. Supports inverse-square and inverse-linear falloff. Contour levels: 25, 50, 100, 150, 200, 400.
 
 ### Vehicle 4 Configs (bell-curve response)
