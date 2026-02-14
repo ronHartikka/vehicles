@@ -21,21 +21,26 @@ R_left_wheel  = R + axle_width / 2    (outer wheel)
 R_right_wheel = R - axle_width / 2    (inner wheel)
 ```
 
-(Assuming counter-clockwise orbit with source to the right.)
+(Assuming clockwise orbit with source to the vehicle's right.)
 
 ### Sensor Positions
 
-Sensors are at polar coordinates `(distance_from_center, angle_offset)` from the vehicle center, with angle measured from the heading. When the heading is tangent to the orbit, each sensor's distance from the source is:
+Sensors are at polar coordinates `(distance_from_center, angle_offset)` from the vehicle center, with angle measured from the heading. When the heading is tangent to the orbit (source to the right), each sensor's distance from the source is (exact):
 
 ```
-d_sensor = sqrt(R^2 - 2*R*d_s*sin(alpha) + d_s^2)
+d_sensor = sqrt(R^2 + 2*R*d_s*sin(alpha) + d_s^2)
 ```
 
 where `d_s` is `distance_from_center` and `alpha` is `angle_offset`.
 
+Sanity checks:
+- `alpha = +90°` (pure left, away from source): `d = R + d_s`
+- `alpha = -90°` (pure right, toward source): `d = R - d_s`
+- `alpha = 0` (straight ahead): `d = sqrt(R^2 + d_s^2)`
+
 For Vehicle 4a (`d_s = 8`, `alpha = +/-0.3 rad`):
-- Left sensor (`alpha = +0.3`): slightly closer to source
-- Right sensor (`alpha = -0.3`): slightly farther from source
+- Left sensor (`alpha = +0.3`): slightly farther from source
+- Right sensor (`alpha = -0.3`): slightly closer to source
 
 ### Wheel Speed Computation
 
