@@ -17,28 +17,32 @@ where:
 With the vehicle center at distance `R` from the source and heading tangent to the orbit circle, the wheels lie along the radial direction (perpendicular to heading = along the axle):
 
 ```
-R_left_wheel  = R + axle_width / 2    (outer wheel)
-R_right_wheel = R - axle_width / 2    (inner wheel)
+R_outer_wheel = R + axle_width / 2
+R_inner_wheel = R - axle_width / 2
 ```
 
-(Assuming clockwise orbit with source to the vehicle's right.)
+Which wheel is outer/inner depends on orbit direction: source to the right (CW) makes the left wheel outer; source to the left (CCW) makes the right wheel outer.
 
 ### Sensor Positions
 
-Sensors are at polar coordinates `(distance_from_center, angle_offset)` from the vehicle center, with angle measured from the heading. When the heading is tangent to the orbit (source to the right), each sensor's distance from the source is (exact):
+Sensors are at polar coordinates `(distance_from_center, angle_offset)` from the vehicle center, with angle measured from the heading. When the heading is tangent to the orbit, each sensor's distance from the source is (exact):
 
 ```
-d_sensor = sqrt(R^2 + 2*R*d_s*sin(alpha) + d_s^2)
+d_sensor = sqrt(R^2 + 2*sigma*R*d_s*sin(alpha) + d_s^2)
 ```
 
-where `d_s` is `distance_from_center` and `alpha` is `angle_offset`.
+where:
+- `d_s` is `distance_from_center`
+- `alpha` is `angle_offset`
+- `sigma = +1` for source to the right (CW orbit)
+- `sigma = -1` for source to the left (CCW orbit)
 
-Sanity checks:
+Sanity checks (source to the right, sigma = +1):
 - `alpha = +90°` (pure left, away from source): `d = R + d_s`
 - `alpha = -90°` (pure right, toward source): `d = R - d_s`
 - `alpha = 0` (straight ahead): `d = sqrt(R^2 + d_s^2)`
 
-For Vehicle 4a (`d_s = 8`, `alpha = +/-0.3 rad`):
+For Vehicle 4a (`d_s = 8`, `alpha = +/-0.3 rad`, source to the right):
 - Left sensor (`alpha = +0.3`): slightly farther from source
 - Right sensor (`alpha = -0.3`): slightly closer to source
 
