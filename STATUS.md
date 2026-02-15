@@ -86,12 +86,13 @@ Key findings:
 13. ✅ Discovered orbital behavior with asymmetric base_voltages - orbit radius scales with source intensity
 14. ✅ Vehicle 4a: bell-curve sensor response (peak_stimulus, max_voltage). Vehicle orbits where equal-angular-velocity condition is met for both wheels. See [docs/orbit-analysis.md](docs/orbit-analysis.md).
 15. ✅ Field contour overlay (C key): draws labeled iso-stimulus circles around single-source fields. Supports inverse-square and inverse-linear falloff. Contour levels: 25, 50, 100, 150, 200, 400.
+16. ✅ Orbit radius derivation: the orbit condition yields a degree-8 polynomial — no closed-form solution. Graphical analysis confirms two crossings for Vehicle 4a (R≈42.7 and R≈50.9). The observed orbit at stimulus≈200 matches the inner solution. See [docs/orbit-analysis.md](docs/orbit-analysis.md) and [docs/orbit_condition_4a.png](docs/orbit_condition_4a.png).
 
 ### Vehicle 4 Configs (bell-curve response)
 
 | File | Vehicle Name | Wiring | Response | Behavior |
 |------|-------------|--------|----------|----------|
-| `vehicle_4a.json` | vehicle-4a | uncrossed | bell (peak=100, max_V=50) | Orbits source at stimulus≈200 contour |
+| `vehicle_4a.json` | vehicle-4a | uncrossed | bell (peak=100, max_V=50) | Orbits at R≈42.7 (stimulus≈219). A second solution at R≈50.9 (stimulus≈154) may be unstable. |
 
 ## Next Steps
 
@@ -99,8 +100,9 @@ Key findings:
 2. Multi-vehicle scenario configs (multiple vehicles interacting with same sources)
 3. Consider Vehicles 4+ continued (memory, learning, threshold logic)
 4. Explore more orbital configurations (different asymmetric base_voltage ratios, multiple orbiting vehicles)
-5. Parameter sensitivity analysis (how do orbit radius, speed, and stability depend on base_voltage difference and source intensity?)
-6. Numerical contouring (marching squares) for multi-source fields
+5. Test stability of the outer orbit solution (R≈50.9) — start vehicle at that distance
+6. Parameter sensitivity analysis (how do orbit radius, speed, and stability depend on base_voltage difference and source intensity?)
+7. Numerical contouring (marching squares) for multi-source fields
 
 ## How to Run
 

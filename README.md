@@ -39,6 +39,7 @@ Everything is configured via JSON files -- no code changes needed to create new 
 | +/- | Speed up / slow down |
 | T | Toggle vehicle trail |
 | F | Toggle field intensity overlay |
+| C | Toggle field contour lines |
 | Z / X | Zoom in / out |
 | Arrows | Pan the view |
 | H | Re-center view on selected vehicle |
@@ -78,6 +79,7 @@ The key insight: **same hardware, different wiring, different behavior.**
 | `vehicle_2b_aggression.json` | aggressive-1 | crossed | linear | Aggression |
 | `vehicle_3a_love.json` | love-1 | uncrossed | inverse | Love |
 | `vehicle_3b_explorer.json` | explorer-1 | crossed | inverse | Explorer |
+| `vehicle_4a.json` | vehicle-4a | uncrossed | bell | Orbits source |
 
 ## Configuration
 
