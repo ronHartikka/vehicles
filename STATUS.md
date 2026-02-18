@@ -87,7 +87,7 @@ Key findings:
 14. ✅ Vehicle 4a: bell-curve sensor response (peak_stimulus, max_voltage). Vehicle orbits where equal-angular-velocity condition is met for both wheels. See [docs/orbit-analysis.md](docs/orbit-analysis.md).
 15. ✅ Field contour overlay (C key): draws labeled iso-stimulus circles around single-source fields. Supports inverse-square and inverse-linear falloff. Contour levels: 25, 50, 100, 150, 200, 400.
 16. ✅ Orbit radius derivation: the orbit condition yields a degree-8 polynomial — no closed-form solution. Graphical analysis confirms two crossings for Vehicle 4a (R≈42.7 and R≈50.9). The observed orbit at stimulus≈200 matches the inner solution. See [docs/orbit-analysis.md](docs/orbit-analysis.md) and [docs/orbit_condition_4a.png](docs/orbit_condition_4a.png).
-17. ✅ Confirmed outer orbit (R≈50.9) is unstable: two-vehicle test (`vehicle_4a_both_orbits_try.json`) shows both inner and outer starting positions converge to the same inner orbit at R≈42.7.
+17. ✅ Confirmed outer orbit (R≈50.9) is unstable: two-vehicle test (`vehicle_4a_both_orbits_try.json`) shows both inner and outer starting positions converge to the same inner orbit at R≈42.7. Stability is visible in the angular velocity plot: at the stable crossing (R≈42.7) the two curves have opposite slopes (scissor crossing — perturbations reverse the imbalance, self-correcting), while at the unstable crossing (R≈50.9) both slopes are the same sign (perturbations reinforce the imbalance, self-amplifying). The general criterion is the sign of `d/dR(omega_left - omega_right)` at the crossing: positive = stable, negative = unstable.
 
 ### Vehicle 4 Configs (bell-curve response)
 
@@ -97,6 +97,8 @@ Key findings:
 | `vehicle_4a_inner_orbit_try.json` | vehicle-4a | uncrossed | bell | Starts at R≈40, converges to inner orbit |
 | `vehicle_4a_outer_orbit_try.json` | vehicle-4a | uncrossed | bell | Starts at R≈50.9 (outer solution), converges to inner orbit |
 | `vehicle_4a_both_orbits_try.json` | vehicle-4a, vehicle-4a-outer | uncrossed | bell | Two vehicles: inner (R≈42.7) and outer (R≈50.9) start, both converge to same orbit |
+
+18. ✅ Vehicle 3a (inverse response) cannot orbit with symmetric base_voltages. Graphical analysis with B=0, 10, 25, 50, 100, 200 shows zero crossings — the inner wheel always has higher angular velocity. The monotonic inverse response cannot produce enough speed differential to overcome the inner wheel's geometric radius advantage. The bell curve's non-monotonicity is essential for orbiting with equal base_voltages. See [docs/orbit_condition_3a.png](docs/orbit_condition_3a.png) and [docs/orbit_condition_3a_base_voltage.png](docs/orbit_condition_3a_base_voltage.png). Vehicle 3 requires asymmetric base_voltages to orbit.
 
 ## Next Steps
 
