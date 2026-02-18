@@ -101,6 +101,7 @@ Key findings:
 | `vehicle_4a_bouncing_approaches.json` | 3 vehicles | uncrossed | bell (B=5,10,25) | Head-on approaches from west at different offsets. All plunge into dead zone (stimulus>200), crawl on base_voltage. |
 | `vehicle_4a_bouncing_glancing.json` | 3 vehicles | uncrossed | bell (B=5) | Glancing east approach past source at miss distances 50/60/70. Closest captured into orbit (stimulus≈250). Other two deflected NE, escape. No bounce-back observed. |
 | `vehicle_4a_figure8.json` | figure-8 | uncrossed | bell (B=25) | **Figure-8!** Two sources separated by 125 units. Vehicle orbits one source, gets handed off to the other, repeats. Stable figure-8 trajectory. |
+| `vehicle_4a_figure8_crossed.json` | figure-8-crossed | crossed | bell (B=25) | Same two sources, crossed wiring. Escapes NE, no orbit or figure-8. Crossed wiring steers toward source in bell zone, which flings the vehicle out rather than capturing it. |
 
 **Bouncing behavior (Braitenberg's description):** Vehicle 4a "navigates toward the source, turns away when stimulus becomes strong, circles back." Not yet reproduced. The bell active zone (stimulus 0–200) is a narrow ring; direct approaches plunge through into the dead zone (stimulus>200, bell=0), and glancing approaches either get captured into orbit or escape after a single deflection. The missing ingredient may be a mechanism to curve the vehicle back after deflection — with symmetric base_voltages and no stimulus, the escaped vehicle just goes straight.
 
