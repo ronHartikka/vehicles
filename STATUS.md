@@ -97,6 +97,11 @@ Key findings:
 | `vehicle_4a_inner_orbit_try.json` | vehicle-4a | uncrossed | bell | Starts at R≈40, converges to inner orbit |
 | `vehicle_4a_outer_orbit_try.json` | vehicle-4a | uncrossed | bell | Starts at R≈50.9 (outer solution), converges to inner orbit |
 | `vehicle_4a_both_orbits_try.json` | vehicle-4a, vehicle-4a-outer | uncrossed | bell | Two vehicles: inner (R≈42.7) and outer (R≈50.9) start, both converge to same orbit |
+| `vehicle_4a_bouncing_off.json` | vehicle-4a | uncrossed | bell (B=25) | Starts at R=30 heading east. Crawls through dead zone, gets flung SE on reaching bell zone, escapes. |
+| `vehicle_4a_bouncing_approaches.json` | 3 vehicles | uncrossed | bell (B=5,10,25) | Head-on approaches from west at different offsets. All plunge into dead zone (stimulus>200), crawl on base_voltage. |
+| `vehicle_4a_bouncing_glancing.json` | 3 vehicles | uncrossed | bell (B=5) | Glancing east approach past source at miss distances 50/60/70. Closest captured into orbit (stimulus≈250). Other two deflected NE, escape. No bounce-back observed. |
+
+**Bouncing behavior (Braitenberg's description):** Vehicle 4a "navigates toward the source, turns away when stimulus becomes strong, circles back." Not yet reproduced. The bell active zone (stimulus 0–200) is a narrow ring; direct approaches plunge through into the dead zone (stimulus>200, bell=0), and glancing approaches either get captured into orbit or escape after a single deflection. The missing ingredient may be a mechanism to curve the vehicle back after deflection — with symmetric base_voltages and no stimulus, the escaped vehicle just goes straight.
 
 18. ✅ Vehicle 3a (inverse response) cannot orbit with symmetric base_voltages. Graphical analysis with B=0, 10, 25, 50, 100, 200 shows zero crossings — the inner wheel always has higher angular velocity. The monotonic inverse response cannot produce enough speed differential to overcome the inner wheel's geometric radius advantage. The bell curve's non-monotonicity is essential for orbiting with equal base_voltages. See [docs/orbit_condition_3a.png](docs/orbit_condition_3a.png) and [docs/orbit_condition_3a_base_voltage.png](docs/orbit_condition_3a_base_voltage.png). Vehicle 3 requires asymmetric base_voltages to orbit.
 
