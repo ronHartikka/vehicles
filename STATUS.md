@@ -14,12 +14,12 @@ Vehicles 2 and 3 implemented and tested. All four classic Braitenberg behaviors 
 6. ✅ Simulation engine (`vehicles/` package - pure Python, no pygame dependency)
    - `model.py` - Domain dataclasses
    - `fields.py` - Source falloff with interior linear transition (no point sources)
-   - `sensors.py` - Response functions (linear, threshold, sigmoid, logarithmic, inverse, bell)
+   - `sensors.py` - Response functions (linear, threshold, sigmoid, logarithmic, inverse, bell, triangular)
    - `simulation.py` - Main loop step with differential drive kinematics
    - `config_loader.py` - JSON config loading
 7. ✅ GUI (`gui/` package)
    - `camera.py` - World-to-screen transforms with pan/zoom
-   - `renderer.py` - Sources, vehicles, trails, field overlay, field contours
+   - `renderer.py` - Sources, vehicles, trails, field overlay, field contours, figure-8 guide
    - `app.py` - Pygame event loop, keyboard/mouse controls, status bar, info panel
 8. ✅ Vehicle configs created and tested:
 
@@ -109,6 +109,16 @@ Key findings:
 
 19. ✅ Two-source orbital behaviors. Separation determines the trajectory shape: at 60 units (< orbital diameter ~85) the vehicle orbits both sources as a single unit in an oval; at 125 units (~1.5x orbital diameter) the vehicle produces a stable figure-8, orbiting each source in turn. Crossed wiring escapes rather than orbiting.
 18. ✅ Vehicle 3a (inverse response) cannot orbit with symmetric base_voltages. Graphical analysis with B=0, 10, 25, 50, 100, 200 shows zero crossings — the inner wheel always has higher angular velocity. The monotonic inverse response cannot produce enough speed differential to overcome the inner wheel's geometric radius advantage. The bell curve's non-monotonicity is essential for orbiting with equal base_voltages. See [docs/orbit_condition_3a.png](docs/orbit_condition_3a.png) and [docs/orbit_condition_3a_base_voltage.png](docs/orbit_condition_3a_base_voltage.png). Vehicle 3 requires asymmetric base_voltages to orbit.
+20. ✅ Triangular (tent) sensor response function added. Piecewise linear version of bell: rises linearly from 0 to max_voltage at peak_stimulus, falls linearly back to 0 at 2×peak_stimulus. Same qualitative shape as bell but with sharp peak.
+21. ✅ Figure-8 guide overlay: when contours are enabled (C key) and a bell or triangular sensor is in use, two tangent circles are drawn around each source. Inner circle centered on source with radius = R_peak (the peak-stimulus distance), outer circle centered at 2×R_peak below source. They meet at the crossing point where the vehicle transitions between the two steering regimes.
+22. Multi-vehicle triangular experiment (`vehicle_4a_triangular_multi.json`): 7 vehicles at starting distances R=45 to R=75 from source. First 2 (R=45, R=50) orbit the source. R=55 escapes ESE, rest escape ENE. Single-source figure-8 not yet achieved — the figure-8 mechanism (reversed steering inside peak distance vs normal steering outside) needs further parameter tuning.
+
+### Vehicle 4 Triangular Configs
+
+| File | Vehicle Name | Wiring | Response | Behavior |
+|------|-------------|--------|----------|----------|
+| `vehicle_4a_triangular.json` | triangular-orbit | uncrossed | triangular (peak=100, max_V=50) | Starts at R≈63, orbits source |
+| `vehicle_4a_triangular_multi.json` | R=195..R=225 | uncrossed | triangular (peak=100, max_V=50) | 7 vehicles at different distances. First 2 orbit, rest escape. |
 
 ## Next Steps
 
