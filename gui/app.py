@@ -234,10 +234,19 @@ class App:
                 color = self.colors.get(field.type, (128, 128, 128))
                 renderer.draw_field_overlay(sim_surface, self.camera, field, color)
 
-        # Field contours
+        # Field contours and figure-8 guide
         if self.show_contours:
             renderer.draw_field_contours(sim_surface, self.camera,
                                          self.simulation.environment, self.colors)
+            # Draw figure-8 guide for single-source fields with bell/triangular sensors
+            for sd in self.config.sensor_defs.values():
+                if sd.response_function.type in ("bell", "triangular"):
+                    for field in self.simulation.environment.fields:
+                        for source in field.sources:
+                            renderer.draw_figure8_guide(
+                                sim_surface, self.camera, source,
+                                sd.response_function.peak_stimulus)
+                    break
 
         # Sources
         for field in self.simulation.environment.fields:

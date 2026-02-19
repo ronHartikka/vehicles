@@ -1,0 +1,66 @@
+{
+  "environment": {
+    "fields": [
+      {
+        "type": "temperature",
+        "sources": [
+          {
+            "position": [200, 150],
+            "intensity": 400000,
+            "radius": 12,
+            "falloff": "inverse_square"
+          }
+        ]
+      }
+    ]
+  },
+
+  "sensors": {
+    "heat-sensor": {
+      "stimulus_unit": "K",
+      "response_function": {
+        "type": "triangular",
+        "peak_stimulus": 100,
+        "max_voltage": 50
+      }
+    }
+  },
+
+  "vehicles": [
+    {
+      "name": "triangular-orbit",
+      "position": [200, 213],
+      "heading": 0,
+      "body_radius": 8,
+      "axle_width": 12,
+      "sensor_mounts": [
+        { "id": "SL", "sensor": "heat-sensor", "side": "left", "angle_offset": 0.3, "distance_from_center": 8 },
+        { "id": "SR", "sensor": "heat-sensor", "side": "right", "angle_offset": -0.3, "distance_from_center": 8 }
+      ],
+      "motors": [
+        { "id": "ML", "side": "left", "max_speed": 80.0, "gain": 1.0, "base_voltage": 25.0 },
+        { "id": "MR", "side": "right", "max_speed": 80.0, "gain": 1.0, "base_voltage": 25.0 }
+      ],
+      "connections": [
+        { "from_sensor": "SL", "to_motor": "ML", "weight": 1.0 },
+        { "from_sensor": "SR", "to_motor": "MR", "weight": 1.0 }
+      ]
+    }
+  ],
+
+  "simulation": {
+    "dt": 0.05,
+    "method": "euler"
+  },
+
+  "view": {
+    "center": [200, 150],
+    "zoom": 1.5,
+    "window_width": 1024,
+    "window_height": 768
+  },
+
+  "colors": {
+    "temperature": [255, 80, 40]
+  }
+}

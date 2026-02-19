@@ -32,5 +32,13 @@ def compute_voltage(sensor_def: SensorDef, stimulus: float) -> float:
             return 0.0
         normalized = (stimulus - rf.peak_stimulus) / rf.peak_stimulus
         return rf.max_voltage * (1.0 - normalized * normalized)
+    elif rf.type == "triangular":
+        # Tent function: zero at 0, linear up to peak_stimulus, linear down to 2*peak_stimulus
+        if stimulus <= 0 or stimulus >= 2 * rf.peak_stimulus:
+            return 0.0
+        if stimulus <= rf.peak_stimulus:
+            return rf.max_voltage * stimulus / rf.peak_stimulus
+        else:
+            return rf.max_voltage * (2.0 - stimulus / rf.peak_stimulus)
     else:
         raise ValueError(f"Unknown response function: {rf.type}")

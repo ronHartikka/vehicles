@@ -32,7 +32,7 @@ class Environment:
 
 @dataclass
 class ResponseFunction:
-    type: str  # "linear", "threshold", "sigmoid", "logarithmic", "inverse", "bell"
+    type: str  # "linear", "threshold", "sigmoid", "logarithmic", "inverse", "bell", "triangular"
     gain: float = 1.0
     threshold: float = 0.0
     midpoint: float = 0.0

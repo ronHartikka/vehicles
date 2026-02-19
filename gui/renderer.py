@@ -206,3 +206,38 @@ def draw_field_contours(surface: pygame.Surface, camera: Camera,
             if label_x < surface.get_width() - 40:
                 label_surf = label_font.render(f"{level}", True, line_color)
                 surface.blit(label_surf, (label_x, label_y))
+
+
+def draw_figure8_guide(surface: pygame.Surface, camera: Camera,
+                       source: Source, peak_stimulus: float):
+    """Draw a figure-8 guide around a source.
+
+    The crossing point is at the peak-stimulus distance above the source.
+    The inner lobe wraps around the source, the outer lobe extends away.
+    """
+    import math as _math
+
+    R_peak = _math.sqrt(source.intensity / peak_stimulus)
+
+    guide_color = (80, 80, 120)  # dim blue-gray
+
+    # Inner lobe: centered on the source, radius = R_peak
+    # Outer lobe: centered at 2*R_peak below source, radius = R_peak
+    # Both circles meet at the crossing point (R_peak below source)
+    inner_cx, inner_cy = camera.world_to_screen(
+        source.position.x, source.position.y)
+    inner_r_px = camera.world_to_screen_dist(R_peak)
+
+    outer_cx, outer_cy = camera.world_to_screen(
+        source.position.x, source.position.y + 2 * R_peak)
+    outer_r_px = camera.world_to_screen_dist(R_peak)
+
+    if 4 < inner_r_px < 4000:
+        pygame.draw.circle(surface, guide_color, (inner_cx, inner_cy), inner_r_px, 1)
+    if 4 < outer_r_px < 4000:
+        pygame.draw.circle(surface, guide_color, (outer_cx, outer_cy), outer_r_px, 1)
+
+    # Mark crossing point
+    cross_sx, cross_sy = camera.world_to_screen(
+        source.position.x, source.position.y + R_peak)
+    pygame.draw.circle(surface, guide_color, (cross_sx, cross_sy), 4, 0)
