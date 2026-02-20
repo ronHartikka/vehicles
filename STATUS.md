@@ -111,7 +111,24 @@ Key findings:
 18. ✅ Vehicle 3a (inverse response) cannot orbit with symmetric base_voltages. Graphical analysis with B=0, 10, 25, 50, 100, 200 shows zero crossings — the inner wheel always has higher angular velocity. The monotonic inverse response cannot produce enough speed differential to overcome the inner wheel's geometric radius advantage. The bell curve's non-monotonicity is essential for orbiting with equal base_voltages. See [docs/orbit_condition_3a.png](docs/orbit_condition_3a.png) and [docs/orbit_condition_3a_base_voltage.png](docs/orbit_condition_3a_base_voltage.png). Vehicle 3 requires asymmetric base_voltages to orbit.
 20. ✅ Triangular (tent) sensor response function added. Piecewise linear version of bell: rises linearly from 0 to max_voltage at peak_stimulus, falls linearly back to 0 at 2×peak_stimulus. Same qualitative shape as bell but with sharp peak.
 21. ✅ Figure-8 guide overlay: when contours are enabled (C key) and a bell or triangular sensor is in use, two tangent circles are drawn around each source. Inner circle centered on source with radius = R_peak (the peak-stimulus distance), outer circle centered at 2×R_peak below source. They meet at the crossing point where the vehicle transitions between the two steering regimes.
-22. Multi-vehicle triangular experiment (`vehicle_4a_triangular_multi.json`): 7 vehicles at starting distances R=45 to R=75 from source. First 2 (R=45, R=50) orbit the source. R=55 escapes ESE, rest escape ENE. Single-source figure-8 not yet achieved — the figure-8 mechanism (reversed steering inside peak distance vs normal steering outside) needs further parameter tuning.
+22. Multi-vehicle triangular experiment (`vehicle_4a_triangular_multi.json`): 7 vehicles at starting distances R=45 to R=75 from source. First 2 (R=45, R=50) orbit the source. R=55 escapes ESE, rest escape ENE. Single-source figure-8 not yet achieved.
+23. Figure-8 grid experiments (`vehicle_4a_triangular_fig8.json`): Systematic search for single-source figure-8 initial conditions with triangular response.
+    - **2D grid (SE headings at crossing point)**: 4 distances × 3 headings (h=-0.3 to -0.8) starting north of source. 5 vehicles orbited, rest escaped south/east/NE. R73/h-0.8 made a ~90° turn before escaping — closest to interesting behavior.
+    - **Cluster around R73/h-0.8**: 3×3 grid (R=71–75, h=-0.7 to -0.9). No figure-8.
+    - **Bottom of inner lobe (heading west)**: 7 vehicles directly south of source at R=45–75, all heading west (h=π). R=45 and R=50 orbited. All others escaped (headings ranged NW to SW).
+24. **Single-source figure-8 appears impossible with uncrossed wiring.** Steering analysis:
+
+    Consider a vehicle with uncrossed wiring (SL→ML, SR→MR) and a non-monotonic response (bell/triangular):
+
+    - **Descending side** (inside R_peak, stimulus > peak_stimulus): The inner sensor (closer to source) has higher stimulus but *lower* voltage (descending slope). The outer sensor gets *higher* voltage. With uncrossed wiring, the outer motor (farther from source) goes faster → vehicle steers **toward** the source. ✓ This is why the circular inner orbit works.
+
+    - **Ascending side** (outside R_peak, stimulus < peak_stimulus): The inner sensor (closer to source) has higher stimulus and *higher* voltage (ascending slope). With uncrossed wiring, the inner motor goes faster → vehicle steers **away** from the source. ✗ This is classic "fear" behavior.
+
+    For a figure-8, the outer lobe requires the vehicle to curve *back toward* the source after passing R_peak. But on the ascending side, uncrossed wiring always steers away. The vehicle escapes and never returns.
+
+    Crossed wiring would fix the outer lobe (steers toward source on ascending side) but break the inner orbit (steers away from source on descending side). **No single wiring pattern can serve both lobes.**
+
+    This explains why the two-source figure-8 works: each source provides its own orbit attractor on the descending side, and the "handoff" between sources replaces the need for an outer lobe around a single source.
 
 ### Vehicle 4 Triangular Configs
 
@@ -119,6 +136,7 @@ Key findings:
 |------|-------------|--------|----------|----------|
 | `vehicle_4a_triangular.json` | triangular-orbit | uncrossed | triangular (peak=100, max_V=50) | Starts at R≈63, orbits source |
 | `vehicle_4a_triangular_multi.json` | R=195..R=225 | uncrossed | triangular (peak=100, max_V=50) | 7 vehicles at different distances. First 2 orbit, rest escape. |
+| `vehicle_4a_triangular_fig8.json` | (various) | uncrossed | triangular (peak=100, max_V=50) | Figure-8 search experiments. No figure-8 achieved. |
 
 ## Next Steps
 
