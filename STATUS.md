@@ -118,17 +118,17 @@ Key findings:
     - **Bottom of inner lobe (heading west)**: 7 vehicles directly south of source at R=45–75, all heading west (h=π). R=45 and R=50 orbited. All others escaped (headings ranged NW to SW).
 24. **Single-source figure-8 appears impossible with uncrossed wiring.** Steering analysis:
 
-    Consider a vehicle with uncrossed wiring (SL→ML, SR→MR) and a non-monotonic response (bell/triangular):
+    Consider a vehicle with uncrossed wiring (SL→ML, SR→MR) and a non-monotonic response (bell/triangular). The triangular response has two zones separated by R_peak (the distance where stimulus = peak_stimulus):
 
-    - **Descending side** (inside R_peak, stimulus > peak_stimulus): The inner sensor (closer to source) has higher stimulus but *lower* voltage (descending slope). The outer sensor gets *higher* voltage. With uncrossed wiring, the outer motor (farther from source) goes faster → vehicle steers **toward** the source. ✓ This is why the circular inner orbit works.
+    - **Closer than R_peak** (stimulus > peak_stimulus, voltage *drops* as you get closer): The inner sensor (closer to source) reads higher stimulus but gets *lower* voltage. The outer sensor gets *higher* voltage. With uncrossed wiring, the outer-side motor goes faster → vehicle steers **toward** the source. ✓ This is why the circular orbit works.
 
-    - **Ascending side** (outside R_peak, stimulus < peak_stimulus): The inner sensor (closer to source) has higher stimulus and *higher* voltage (ascending slope). With uncrossed wiring, the inner motor goes faster → vehicle steers **away** from the source. ✗ This is classic "fear" behavior.
+    - **Farther than R_peak** (stimulus < peak_stimulus, voltage *rises* as you get closer): The inner sensor (closer to source) reads higher stimulus and gets *higher* voltage. With uncrossed wiring, the source-side motor goes faster → vehicle steers **away** from the source. ✗ This is classic "fear" behavior.
 
-    For a figure-8, the outer lobe requires the vehicle to curve *back toward* the source after passing R_peak. But on the ascending side, uncrossed wiring always steers away. The vehicle escapes and never returns.
+    For a figure-8, the outer lobe requires the vehicle to curve *back toward* the source after passing R_peak. But beyond R_peak, uncrossed wiring always steers away. The vehicle escapes and never returns.
 
-    Crossed wiring would fix the outer lobe (steers toward source on ascending side) but break the inner orbit (steers away from source on descending side). **No single wiring pattern can serve both lobes.**
+    Crossed wiring would fix the outer lobe (steers toward source beyond R_peak) but break the inner orbit (steers away from source inside R_peak). **No single wiring pattern can serve both lobes.**
 
-    This explains why the two-source figure-8 works: each source provides its own orbit attractor on the descending side, and the "handoff" between sources replaces the need for an outer lobe around a single source.
+    This explains why the two-source figure-8 works: each source provides its own orbit attractor (inside R_peak), and the "handoff" between sources replaces the need for an outer lobe around a single source.
 
 ### Vehicle 4 Triangular Configs
 
