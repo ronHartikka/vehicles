@@ -130,13 +130,31 @@ Key findings:
 
     This explains why the two-source figure-8 works: each source provides its own orbit attractor (inside R_peak), and the "handoff" between sources replaces the need for an outer lobe around a single source.
 
+25. ✅ Real-time source intensity control: `[` and `]` keys scale all source intensities by 1.1× / 0.91×. Displayed in status bar as `I=nnnnn`.
+26. ✅ Asymmetric base_voltage experiments with uncrossed wiring (triangular response):
+    - B=26/24 at R=200–400: vehicles orbit the source at close range. Farther vehicles repelled by source (fear behavior on ascending side).
+    - B=25.5/24.5 at R=600: orbits source. R=800: orbit too tight.
+    - Halved base_voltages to ~12.5 keeping same ratio. Orbit diameter from bias alone: R = W×(B_L+B_R)/(2×ΔB). For ΔB=0.1V, diameter ≈ 3000.
+    - Key observation: **vehicles NOT orbiting the source are repelled by it** — confirming the ascending-side fear behavior from item 24.
+27. ✅ Crossed wiring experiments with asymmetric base_voltage (triangular response):
+    - Crossed wiring (SL→MR, SR→ML) reverses the steering: attracts toward source on ascending side, repels on descending side.
+    - Vehicles dive toward source, accelerate hard, then get repelled on the descending side. Some bounce off but never return for a second pass.
+    - With real-time intensity control: **vehicles always get captured into orbit regardless of how weak the source is made.** The crossed wiring attraction on the ascending side is inescapable.
+    - Stuck between two extremes: uncrossed repels (never gets close enough), crossed attracts (always captured).
+28. ✅ Zero-curvature derivation for figure-8 crossing condition:
+    - Concept: a vehicle in circular orbit from base_voltage bias. Source approaches from infinity. At some critical distance, the sensor-induced curvature exactly cancels the bias curvature → zero curvature → straight-line crossing → figure-8.
+    - Formula: d_critical = [4 × max_V × I × d_s × sin(α) / (peak_S × ΔB)]^(1/3)
+    - For R_orbit ≈ d_critical: ΔB ≈ 1.34, B_L ≈ 13.17, B_R ≈ 11.83, R_orbit ≈ 112.
+    - Tested with these parameters and progressively larger distances (up to R=1600) and orbit diameters (up to ~896). With real-time intensity tweaking, can get a vehicle to deflect ~1/4 around the source on one pass, but the deflection weakens on subsequent passes. No stable figure-8 achieved.
+29. ✅ Per-vehicle trail colors: each vehicle gets a distinct color (blue, red, green, gold, purple, cyan, orange, pink) for both body and trail. Trail length increased to 3000 steps.
+
 ### Vehicle 4 Triangular Configs
 
 | File | Vehicle Name | Wiring | Response | Behavior |
 |------|-------------|--------|----------|----------|
 | `vehicle_4a_triangular.json` | triangular-orbit | uncrossed | triangular (peak=100, max_V=50) | Starts at R≈63, orbits source |
 | `vehicle_4a_triangular_multi.json` | R=195..R=225 | uncrossed | triangular (peak=100, max_V=50) | 7 vehicles at different distances. First 2 orbit, rest escape. |
-| `vehicle_4a_triangular_fig8.json` | (various) | uncrossed | triangular (peak=100, max_V=50) | Figure-8 search experiments. No figure-8 achieved. |
+| `vehicle_4a_triangular_fig8.json` | (various) | crossed | triangular (peak=100, max_V=50) | Figure-8 search experiments. Crossed wiring, asymmetric base_voltage, various distances/biases. No single-source figure-8 achieved. |
 
 ## Next Steps
 
@@ -172,6 +190,7 @@ Starts paused. Press Space to run.
 | Z/X | Zoom in/out |
 | Arrows | Pan |
 | H | Home (center on selected vehicle) |
+| [ / ] | Decrease/increase source intensity (×0.91 / ×1.1) |
 | Q/Esc | Quit |
 
 Mouse: Click to select vehicle (shows diagnostics). Right-drag to pan. Scroll to zoom.

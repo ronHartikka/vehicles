@@ -22,6 +22,17 @@ SENSOR_COLOR = (220, 220, 220)
 WHEEL_COLOR = (60, 60, 60)
 TRAIL_COLOR = (100, 160, 220)
 
+VEHICLE_PALETTE = [
+    (100, 160, 220),  # blue
+    (220, 100, 100),  # red
+    (100, 220, 100),  # green
+    (220, 180, 60),   # gold
+    (180, 100, 220),  # purple
+    (100, 220, 220),  # cyan
+    (220, 140, 60),   # orange
+    (220, 100, 180),  # pink
+]
+
 
 def draw_source(surface: pygame.Surface, camera: Camera, source: Source,
                 color: Tuple[int, int, int]):
@@ -35,12 +46,16 @@ def draw_source(surface: pygame.Surface, camera: Camera, source: Source,
 
 def draw_vehicle(surface: pygame.Surface, camera: Camera, vehicle: Vehicle,
                  selected: bool = False,
-                 diagnostics: Optional[VehicleStepResult] = None):
+                 diagnostics: Optional[VehicleStepResult] = None,
+                 body_color: Optional[Tuple[int, int, int]] = None):
     cx, cy = camera.world_to_screen(vehicle.position.x, vehicle.position.y)
     body_r = camera.world_to_screen_dist(vehicle.body_radius)
 
     # Body
-    body_color = VEHICLE_SELECTED_COLOR if selected else VEHICLE_BODY_COLOR
+    if selected:
+        body_color = VEHICLE_SELECTED_COLOR
+    elif body_color is None:
+        body_color = VEHICLE_BODY_COLOR
     pygame.draw.circle(surface, body_color, (cx, cy), body_r)
 
     # Heading line

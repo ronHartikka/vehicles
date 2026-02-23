@@ -17,7 +17,7 @@ STATUS_BAR_HEIGHT = 32
 BG_COLOR = (20, 20, 30)
 STATUS_BG = (40, 40, 50)
 TEXT_COLOR = (200, 200, 200)
-MAX_TRAIL_LENGTH = 500
+MAX_TRAIL_LENGTH = 3000
 
 
 class App:
@@ -169,6 +169,10 @@ class App:
             self.camera.pan(0, 40)
         elif key == pygame.K_h:
             self._home_camera()
+        elif key == pygame.K_RIGHTBRACKET:
+            self._adjust_source_intensity(1.1)
+        elif key == pygame.K_LEFTBRACKET:
+            self._adjust_source_intensity(1.0 / 1.1)
         elif key in (pygame.K_ESCAPE, pygame.K_q):
             self.running = False
 
@@ -184,6 +188,11 @@ class App:
                 best_dist = dist
                 best_name = v.name
         self.selected_vehicle = best_name
+
+    def _adjust_source_intensity(self, factor: float):
+        for field in self.simulation.environment.fields:
+            for source in field.sources:
+                source.intensity *= factor
 
     def _home_camera(self):
         if self.selected_vehicle:
@@ -256,16 +265,19 @@ class App:
 
         # Trails
         if self.show_trail:
-            for v in self.simulation.vehicles:
+            for i, v in enumerate(self.simulation.vehicles):
                 trail = self.trails.get(v.name, [])
-                renderer.draw_trail(sim_surface, self.camera, trail, renderer.TRAIL_COLOR)
+                color = renderer.VEHICLE_PALETTE[i % len(renderer.VEHICLE_PALETTE)]
+                renderer.draw_trail(sim_surface, self.camera, trail, color)
 
         # Vehicles
-        for v in self.simulation.vehicles:
+        for i, v in enumerate(self.simulation.vehicles):
             is_selected = (v.name == self.selected_vehicle)
             diag = self.simulation.diagnostics.get(v.name)
+            color = renderer.VEHICLE_PALETTE[i % len(renderer.VEHICLE_PALETTE)]
             renderer.draw_vehicle(sim_surface, self.camera, v,
-                                  selected=is_selected, diagnostics=diag)
+                                  selected=is_selected, diagnostics=diag,
+                                  body_color=color)
 
         # Info panel
         if self.selected_vehicle:
@@ -288,7 +300,14 @@ class App:
         field_str = "F:on" if self.show_field_overlay else "F:off"
         contour_str = "C:on" if self.show_contours else "C:off"
 
-        text = f" {state}  |  Speed: {speed_str}  |  {time_str}  |  {trail_str}  {field_str}  {contour_str}  |  Space:play  S:step  R:reset  Z/X:zoom  Arrows:pan  H:home  Q:quit"
+        # Show first source intensity
+        intensity_str = ""
+        for field in self.simulation.environment.fields:
+            if field.sources:
+                intensity_str = f"  I={field.sources[0].intensity:.0f}"
+                break
+
+        text = f" {state}  |  Speed: {speed_str}  |  {time_str}{intensity_str}  |  {trail_str}  {field_str}  {contour_str}  |  [/]:intensity  Space:play  R:reset  Q:quit"
         surf = self.font.render(text, True, TEXT_COLOR)
         self.screen.blit(surf, (8, self.screen_h - STATUS_BAR_HEIGHT + 8))
 
