@@ -145,8 +145,18 @@ Key findings:
     - Concept: a vehicle in circular orbit from base_voltage bias. Source approaches from infinity. At some critical distance, the sensor-induced curvature exactly cancels the bias curvature → zero curvature → straight-line crossing → figure-8.
     - Formula: d_critical = [4 × max_V × I × d_s × sin(α) / (peak_S × ΔB)]^(1/3)
     - For R_orbit ≈ d_critical: ΔB ≈ 1.34, B_L ≈ 13.17, B_R ≈ 11.83, R_orbit ≈ 112.
-    - Tested with these parameters and progressively larger distances (up to R=1600) and orbit diameters (up to ~896). With real-time intensity tweaking, can get a vehicle to deflect ~1/4 around the source on one pass, but the deflection weakens on subsequent passes. No stable figure-8 achieved.
-29. ✅ Per-vehicle trail colors: each vehicle gets a distinct color (blue, red, green, gold, purple, cyan, orange, pink) for both body and trail. Trail length increased to 3000 steps.
+    - Tested with these parameters and progressively larger distances (up to R=1600) and orbit diameters (up to ~896). With real-time intensity tweaking, can get a vehicle to deflect ~1/4 around the source on one pass, but the deflection weakens on subsequent passes. No stable figure-8 achieved at these parameters.
+29. ✅ Per-vehicle trail colors: each vehicle gets a distinct color (blue, red, green, gold, purple, cyan, orange, pink) for both body and trail. Trail length increased to 60000 steps. Max speed increased to 512x (200 steps/frame).
+30. **✅ SINGLE-SOURCE FIGURE-8 ACHIEVED!** The breakthrough came from pushing parameters to extremes:
+    - **Very small base_voltage bias**: B_L=1.26675, B_R=1.23325 (ΔB=0.0335). This gives a huge natural orbit radius (~4500), so the bias curvature is extremely gentle.
+    - **Crossed wiring** (SL→MR, SR→ML)
+    - **Reduced source intensity**: 273205 (400000 reduced by 4 presses of `[`, i.e. ÷1.1^4)
+    - **Starting distance R=1280** south of source, heading west
+    - **Triangular response** (peak_stimulus=100, max_voltage=50)
+    - At these parameters the sensor voltages (up to 50V) massively dominate the tiny base_voltages (~1.25V). The bias provides just enough curvature to bring the vehicle back for a second pass after the source deflects it. The blue vehicle (R1280) traced a clear figure-8: one lobe wrapping around the source, a crossing near the source, and an outer lobe extending away before curving back. The other 5 vehicles at R=1300–1380 made single large loops of various sizes but did not close a figure-8 — confirming this is a narrow parameter window.
+    - **Key insight**: the earlier attempts with larger base_voltage bias (ΔB=0.67–1.34) had orbits too tight relative to the source's influence range. The figure-8 requires the bias orbit to be *much* larger than the source's effective range, so the source acts as a small perturbation that creates the crossing, while the bias provides the large-scale return path.
+    - **Second run (t=5879)**: continued the same config longer. The blue vehicle (R1280) did NOT repeat the figure-8 — on the next approach it made a single large loop without closing a second lobe. The other vehicles each made single large loops of various sizes, all crossing near the source. This is a "rosette" or "petal" pattern rather than a repeating figure-8. The figure-8 crossing from the first run may have been a one-time event rather than a stable orbit.
+    - **Next experiment to try**: cluster vehicles very tightly around R=1280 (e.g. spacing of 5 units) to see if any nearby initial condition produces a repeating figure-8, or if the single crossing is the best this parameter regime can do.
 
 ### Vehicle 4 Triangular Configs
 
@@ -154,15 +164,15 @@ Key findings:
 |------|-------------|--------|----------|----------|
 | `vehicle_4a_triangular.json` | triangular-orbit | uncrossed | triangular (peak=100, max_V=50) | Starts at R≈63, orbits source |
 | `vehicle_4a_triangular_multi.json` | R=195..R=225 | uncrossed | triangular (peak=100, max_V=50) | 7 vehicles at different distances. First 2 orbit, rest escape. |
-| `vehicle_4a_triangular_fig8.json` | (various) | crossed | triangular (peak=100, max_V=50) | Figure-8 search experiments. Crossed wiring, asymmetric base_voltage, various distances/biases. No single-source figure-8 achieved. |
+| `vehicle_4a_triangular_fig8.json` | R1280 cluster | crossed | triangular (peak=100, max_V=50), B=1.267/1.233, I=273205 | **Figure-8!** R1280 vehicle traces single-source figure-8. Narrow parameter window. |
 
 ## Next Steps
 
-1. Create `configs/vehicle_1.json` (single sensor, straight line)
-2. Multi-vehicle scenario configs (multiple vehicles interacting with same sources)
-3. Consider Vehicles 4+ continued (memory, learning, threshold logic)
-4. Explore more orbital configurations (different asymmetric base_voltage ratios, multiple orbiting vehicles)
-5. Parameter sensitivity analysis (how do orbit radius, speed, and stability depend on base_voltage difference and source intensity?)
+1. Tighter cluster around R=1280 to characterize figure-8 stability and parameter sensitivity
+2. Determine if the figure-8 is a stable attractor (does the vehicle repeat the figure-8 on subsequent passes?)
+3. Create `configs/vehicle_1.json` (single sensor, straight line)
+4. Multi-vehicle scenario configs (multiple vehicles interacting with same sources)
+5. Consider Vehicles 4+ continued (memory, learning, threshold logic)
 6. Numerical contouring (marching squares) for multi-source fields
 
 ## How to Run
