@@ -156,7 +156,9 @@ Key findings:
     - At these parameters the sensor voltages (up to 50V) massively dominate the tiny base_voltages (~1.25V). The bias provides just enough curvature to bring the vehicle back for a second pass after the source deflects it. The blue vehicle (R1280) traced a clear figure-8: one lobe wrapping around the source, a crossing near the source, and an outer lobe extending away before curving back. The other 5 vehicles at R=1300–1380 made single large loops of various sizes but did not close a figure-8 — confirming this is a narrow parameter window.
     - **Key insight**: the earlier attempts with larger base_voltage bias (ΔB=0.67–1.34) had orbits too tight relative to the source's influence range. The figure-8 requires the bias orbit to be *much* larger than the source's effective range, so the source acts as a small perturbation that creates the crossing, while the bias provides the large-scale return path.
     - **Second run (t=5879)**: continued the same config longer. The blue vehicle (R1280) did NOT repeat the figure-8 — on the next approach it made a single large loop without closing a second lobe. The other vehicles each made single large loops of various sizes, all crossing near the source. This is a "rosette" or "petal" pattern rather than a repeating figure-8. The figure-8 crossing from the first run may have been a one-time event rather than a stable orbit.
-    - **Next experiment to try**: cluster vehicles very tightly around R=1280 (e.g. spacing of 5 units) to see if any nearby initial condition produces a repeating figure-8, or if the single crossing is the best this parameter regime can do.
+    - **Long run (t=42170, I=330578)**: All 6 vehicles converged to the same precessing rosette/petal orbit. Each vehicle makes large loops that cross near the source and slowly precess around it. This is a **stable attractor** — all initial conditions in the cluster converge to the same orbit shape regardless of starting distance. The loops do not wrap around the source; they pass near it, get deflected, and curve back via the bias. The source intensity drifted up slightly to 330578 during interactive adjustment.
+    - **Observation**: The convergence to a common precessing rosette is encouraging. If the source deflection can be increased enough that one lobe wraps *around* the source (rather than just past it), the result would be a precessing figure-8. Even a precessing figure-8 (not closed) would demonstrate the Braitenberg figure 7 behavior.
+    - **Next experiment to try**: cluster vehicles very tightly around R=1280 (e.g. spacing of 5 units) to probe whether slightly different initial conditions or source intensity can push a lobe to wrap around the source, producing a precessing figure-8.
 
 ### Vehicle 4 Triangular Configs
 
@@ -164,7 +166,7 @@ Key findings:
 |------|-------------|--------|----------|----------|
 | `vehicle_4a_triangular.json` | triangular-orbit | uncrossed | triangular (peak=100, max_V=50) | Starts at R≈63, orbits source |
 | `vehicle_4a_triangular_multi.json` | R=195..R=225 | uncrossed | triangular (peak=100, max_V=50) | 7 vehicles at different distances. First 2 orbit, rest escape. |
-| `vehicle_4a_triangular_fig8.json` | R1280 cluster | crossed | triangular (peak=100, max_V=50), B=1.267/1.233, I=273205 | **Figure-8!** R1280 vehicle traces single-source figure-8. Narrow parameter window. |
+| `vehicle_4a_triangular_fig8.json` | R1280 cluster | crossed | triangular (peak=100, max_V=50), B=1.267/1.233, I=273205 | One figure-8 crossing on first pass, then converges to stable precessing rosette. All 6 vehicles converge to same attractor. |
 
 ## Next Steps
 
