@@ -19,7 +19,7 @@
     "heat-sensor": {
       "stimulus_unit": "K",
       "response_function": {
-        "type": "triangular",
+        "type": "bell",
         "peak_stimulus": 100,
         "max_voltage": 50
       }
@@ -28,17 +28,17 @@
 
   "vehicles": [
     {
-      "name": "R1280",
-      "position": [200, -1130],
+      "name": "R500",
+      "position": [200, -350],
       "heading": 3.1416,
       "body_radius": 6, "axle_width": 12,
       "sensor_mounts": [
-        { "id": "SL", "sensor": "heat-sensor", "side": "left", "angle_offset": 0.3, "distance_from_center": 8 },
-        { "id": "SR", "sensor": "heat-sensor", "side": "right", "angle_offset": -0.3, "distance_from_center": 8 }
+        { "id": "SL", "sensor": "heat-sensor", "side": "left", "angle_offset": 0.3, "distance_from_center": 24 },
+        { "id": "SR", "sensor": "heat-sensor", "side": "right", "angle_offset": -0.3, "distance_from_center": 24 }
       ],
       "motors": [
-        { "id": "ML", "side": "left", "max_speed": 80.0, "gain": 1.0, "base_voltage": 1.26675 },
-        { "id": "MR", "side": "right", "max_speed": 80.0, "gain": 1.0, "base_voltage": 1.23325 }
+        { "id": "ML", "side": "left", "max_speed": 80.0, "gain": 1.0, "base_voltage": 5.0 },
+        { "id": "MR", "side": "right", "max_speed": 80.0, "gain": 1.0, "base_voltage": 4.0 }
       ],
       "connections": [
         { "from_sensor": "SL", "to_motor": "MR", "weight": 1.0 },
@@ -46,17 +46,17 @@
       ]
     },
     {
-      "name": "R1280+20",
-      "position": [200, -1150],
+      "name": "R750",
+      "position": [200, -600],
       "heading": 3.1416,
       "body_radius": 6, "axle_width": 12,
       "sensor_mounts": [
-        { "id": "SL", "sensor": "heat-sensor", "side": "left", "angle_offset": 0.3, "distance_from_center": 8 },
-        { "id": "SR", "sensor": "heat-sensor", "side": "right", "angle_offset": -0.3, "distance_from_center": 8 }
+        { "id": "SL", "sensor": "heat-sensor", "side": "left", "angle_offset": 0.3, "distance_from_center": 24 },
+        { "id": "SR", "sensor": "heat-sensor", "side": "right", "angle_offset": -0.3, "distance_from_center": 24 }
       ],
       "motors": [
-        { "id": "ML", "side": "left", "max_speed": 80.0, "gain": 1.0, "base_voltage": 1.26675 },
-        { "id": "MR", "side": "right", "max_speed": 80.0, "gain": 1.0, "base_voltage": 1.23325 }
+        { "id": "ML", "side": "left", "max_speed": 80.0, "gain": 1.0, "base_voltage": 5.0 },
+        { "id": "MR", "side": "right", "max_speed": 80.0, "gain": 1.0, "base_voltage": 4.0 }
       ],
       "connections": [
         { "from_sensor": "SL", "to_motor": "MR", "weight": 1.0 },
@@ -64,17 +64,17 @@
       ]
     },
     {
-      "name": "R1280+40",
-      "position": [200, -1170],
+      "name": "R1000",
+      "position": [200, -850],
       "heading": 3.1416,
       "body_radius": 6, "axle_width": 12,
       "sensor_mounts": [
-        { "id": "SL", "sensor": "heat-sensor", "side": "left", "angle_offset": 0.3, "distance_from_center": 8 },
-        { "id": "SR", "sensor": "heat-sensor", "side": "right", "angle_offset": -0.3, "distance_from_center": 8 }
+        { "id": "SL", "sensor": "heat-sensor", "side": "left", "angle_offset": 0.3, "distance_from_center": 24 },
+        { "id": "SR", "sensor": "heat-sensor", "side": "right", "angle_offset": -0.3, "distance_from_center": 24 }
       ],
       "motors": [
-        { "id": "ML", "side": "left", "max_speed": 80.0, "gain": 1.0, "base_voltage": 1.26675 },
-        { "id": "MR", "side": "right", "max_speed": 80.0, "gain": 1.0, "base_voltage": 1.23325 }
+        { "id": "ML", "side": "left", "max_speed": 80.0, "gain": 1.0, "base_voltage": 5.0 },
+        { "id": "MR", "side": "right", "max_speed": 80.0, "gain": 1.0, "base_voltage": 4.0 }
       ],
       "connections": [
         { "from_sensor": "SL", "to_motor": "MR", "weight": 1.0 },
@@ -82,17 +82,17 @@
       ]
     },
     {
-      "name": "R1280+60",
-      "position": [200, -1190],
+      "name": "R1500",
+      "position": [200, -1350],
       "heading": 3.1416,
       "body_radius": 6, "axle_width": 12,
       "sensor_mounts": [
-        { "id": "SL", "sensor": "heat-sensor", "side": "left", "angle_offset": 0.3, "distance_from_center": 8 },
-        { "id": "SR", "sensor": "heat-sensor", "side": "right", "angle_offset": -0.3, "distance_from_center": 8 }
+        { "id": "SL", "sensor": "heat-sensor", "side": "left", "angle_offset": 0.3, "distance_from_center": 24 },
+        { "id": "SR", "sensor": "heat-sensor", "side": "right", "angle_offset": -0.3, "distance_from_center": 24 }
       ],
       "motors": [
-        { "id": "ML", "side": "left", "max_speed": 80.0, "gain": 1.0, "base_voltage": 1.26675 },
-        { "id": "MR", "side": "right", "max_speed": 80.0, "gain": 1.0, "base_voltage": 1.23325 }
+        { "id": "ML", "side": "left", "max_speed": 80.0, "gain": 1.0, "base_voltage": 5.0 },
+        { "id": "MR", "side": "right", "max_speed": 80.0, "gain": 1.0, "base_voltage": 4.0 }
       ],
       "connections": [
         { "from_sensor": "SL", "to_motor": "MR", "weight": 1.0 },
@@ -100,17 +100,17 @@
       ]
     },
     {
-      "name": "R1280+80",
-      "position": [200, -1210],
+      "name": "R2000",
+      "position": [200, -1850],
       "heading": 3.1416,
       "body_radius": 6, "axle_width": 12,
       "sensor_mounts": [
-        { "id": "SL", "sensor": "heat-sensor", "side": "left", "angle_offset": 0.3, "distance_from_center": 8 },
-        { "id": "SR", "sensor": "heat-sensor", "side": "right", "angle_offset": -0.3, "distance_from_center": 8 }
+        { "id": "SL", "sensor": "heat-sensor", "side": "left", "angle_offset": 0.3, "distance_from_center": 24 },
+        { "id": "SR", "sensor": "heat-sensor", "side": "right", "angle_offset": -0.3, "distance_from_center": 24 }
       ],
       "motors": [
-        { "id": "ML", "side": "left", "max_speed": 80.0, "gain": 1.0, "base_voltage": 1.26675 },
-        { "id": "MR", "side": "right", "max_speed": 80.0, "gain": 1.0, "base_voltage": 1.23325 }
+        { "id": "ML", "side": "left", "max_speed": 80.0, "gain": 1.0, "base_voltage": 5.0 },
+        { "id": "MR", "side": "right", "max_speed": 80.0, "gain": 1.0, "base_voltage": 4.0 }
       ],
       "connections": [
         { "from_sensor": "SL", "to_motor": "MR", "weight": 1.0 },
@@ -118,17 +118,17 @@
       ]
     },
     {
-      "name": "R1280+100",
-      "position": [200, -1230],
+      "name": "R3000",
+      "position": [200, -2850],
       "heading": 3.1416,
       "body_radius": 6, "axle_width": 12,
       "sensor_mounts": [
-        { "id": "SL", "sensor": "heat-sensor", "side": "left", "angle_offset": 0.3, "distance_from_center": 8 },
-        { "id": "SR", "sensor": "heat-sensor", "side": "right", "angle_offset": -0.3, "distance_from_center": 8 }
+        { "id": "SL", "sensor": "heat-sensor", "side": "left", "angle_offset": 0.3, "distance_from_center": 24 },
+        { "id": "SR", "sensor": "heat-sensor", "side": "right", "angle_offset": -0.3, "distance_from_center": 24 }
       ],
       "motors": [
-        { "id": "ML", "side": "left", "max_speed": 80.0, "gain": 1.0, "base_voltage": 1.26675 },
-        { "id": "MR", "side": "right", "max_speed": 80.0, "gain": 1.0, "base_voltage": 1.23325 }
+        { "id": "ML", "side": "left", "max_speed": 80.0, "gain": 1.0, "base_voltage": 5.0 },
+        { "id": "MR", "side": "right", "max_speed": 80.0, "gain": 1.0, "base_voltage": 4.0 }
       ],
       "connections": [
         { "from_sensor": "SL", "to_motor": "MR", "weight": 1.0 },
@@ -138,12 +138,12 @@
   ],
 
   "simulation": {
-    "dt": 0.05,
+    "dt": 0.01,
     "method": "euler"
   },
 
   "view": {
-    "center": [200, -1130],
+    "center": [200, -800],
     "zoom": 0.04,
     "window_width": 1024,
     "window_height": 768

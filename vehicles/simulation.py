@@ -77,7 +77,7 @@ class Simulation:
         wheel_speeds = {}
         for mid, voltage_in in motor_input.items():
             motor = motor_lookup[mid]
-            speed = max(0.0, min(motor.gain * voltage_in, motor.max_speed))
+            speed = max(0.0, motor.gain * voltage_in)
             wheel_speeds[motor.side] = wheel_speeds.get(motor.side, 0.0) + speed
             motor_states.append(MotorState(mid, voltage_in, speed))
 

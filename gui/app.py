@@ -17,7 +17,7 @@ STATUS_BAR_HEIGHT = 32
 BG_COLOR = (20, 20, 30)
 STATUS_BG = (40, 40, 50)
 TEXT_COLOR = (200, 200, 200)
-MAX_TRAIL_LENGTH = 60000
+MAX_TRAIL_LENGTH = 600000
 
 
 class App:
@@ -47,7 +47,7 @@ class App:
         self.running = True
         self.paused = True
         self.speed_multiplier = 1.0
-        self.show_trail = False
+        self.show_trail = True
         self.show_field_overlay = False
         self.show_contours = False
         self.selected_vehicle: Optional[str] = None
@@ -87,7 +87,7 @@ class App:
             if not self.paused:
                 accumulator += frame_dt * self.speed_multiplier
                 steps = 0
-                while accumulator >= self.simulation.dt and steps < 200:
+                while accumulator >= self.simulation.dt and steps < 2000:
                     self.simulation.step()
                     self._record_trails()
                     accumulator -= self.simulation.dt
@@ -148,7 +148,7 @@ class App:
         elif key in (pygame.K_EQUALS, pygame.K_PLUS):
             self.speed_multiplier = min(512.0, self.speed_multiplier * 2)
         elif key == pygame.K_MINUS:
-            self.speed_multiplier = max(0.125, self.speed_multiplier / 2)
+            self.speed_multiplier = max(0.001, self.speed_multiplier / 2)
         elif key == pygame.K_t:
             self.show_trail = not self.show_trail
         elif key == pygame.K_f:

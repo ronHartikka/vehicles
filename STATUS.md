@@ -160,21 +160,36 @@ Key findings:
     - **Observation**: The convergence to a common precessing rosette is encouraging. If the source deflection can be increased enough that one lobe wraps *around* the source (rather than just past it), the result would be a precessing figure-8. Even a precessing figure-8 (not closed) would demonstrate the Braitenberg figure 7 behavior.
     - **Next experiment to try**: cluster vehicles very tightly around R=1280 (e.g. spacing of 5 units) to probe whether slightly different initial conditions or source intensity can push a lobe to wrap around the source, producing a precessing figure-8.
 
+31. ✅ Removed max_speed clamp from simulation (speed = max(0, gain × voltage), no ceiling). Reduced dt from 0.05 to 0.01 for smoother curves near source. Increased max simulation speed to 512x with 2000 steps/frame.
+32. ✅ Switched from triangular to bell response to eliminate kinks from piecewise-linear transitions.
+33. ✅ Crossed-wiring circular orbit confirmed: with symmetric base_voltages (B=1.0/1.0), crossed wiring, bell response, and increased sensor arm (distance_from_center=24), all 6 vehicles at R=150–400 converged to same counter-clockwise circular orbit at R≈75. Stable attractor.
+34. **✅ SINGLE-SOURCE FIGURE-8 ACHIEVED — REPEATING!** See [docs/figure8_single_source.jpeg](docs/figure8_single_source.jpeg).
+    - **Crossed wiring** (SL→MR, SR→ML)
+    - **Bell response** (peak_stimulus=100, max_voltage=50) — smooth, no kinks
+    - **Strong clockwise bias**: B_L=5.0, B_R=4.0 (ΔB=1.0, bias orbit radius ≈ 54)
+    - **Large sensor arm**: distance_from_center=24 (radial sensor spread ≈ 14, exceeding axle width of 12)
+    - **Source intensity**: 273205
+    - The blue vehicle (R=500) makes repeated figure-8 loops: counter-clockwise around the source, breaks free, clockwise outer loop via bias, returns to source. Multiple passes visible.
+    - **Key insights that led to this**:
+      1. Sensor arm must be large enough (radial spread ≥ axle width) for sufficient steering differential
+      2. Clockwise bias must be strong enough to pull vehicle out of the counter-clockwise source orbit
+      3. The balance between bias curvature and source capture determines whether the vehicle escapes after each inner loop
+    - **Path to discovery**: precessing rosette (tiny bias) → confirmed crossed-wiring circular orbit (symmetric base_voltage) → added strong clockwise bias → figure-8
+
 ### Vehicle 4 Triangular Configs
 
 | File | Vehicle Name | Wiring | Response | Behavior |
 |------|-------------|--------|----------|----------|
 | `vehicle_4a_triangular.json` | triangular-orbit | uncrossed | triangular (peak=100, max_V=50) | Starts at R≈63, orbits source |
 | `vehicle_4a_triangular_multi.json` | R=195..R=225 | uncrossed | triangular (peak=100, max_V=50) | 7 vehicles at different distances. First 2 orbit, rest escape. |
-| `vehicle_4a_triangular_fig8.json` | R1280 cluster | crossed | triangular (peak=100, max_V=50), B=1.267/1.233, I=273205 | One figure-8 crossing on first pass, then converges to stable precessing rosette. All 6 vehicles converge to same attractor. |
+| `vehicle_4a_triangular_fig8.json` | R500–R3000 | crossed | bell (peak=100, max_V=50), B=5.0/4.0, I=273205, sensor_arm=24 | **Repeating figure-8!** Blue vehicle loops around source and back, multiple passes. |
 
 ## Next Steps
 
-1. Tighter cluster around R=1280 to characterize figure-8 stability and parameter sensitivity
-2. Determine if the figure-8 is a stable attractor (does the vehicle repeat the figure-8 on subsequent passes?)
-3. Create `configs/vehicle_1.json` (single sensor, straight line)
-4. Multi-vehicle scenario configs (multiple vehicles interacting with same sources)
-5. Consider Vehicles 4+ continued (memory, learning, threshold logic)
+1. Characterize figure-8 stability and parameter sensitivity (how wide is the parameter window?)
+2. Create `configs/vehicle_1.json` (single sensor, straight line)
+3. Multi-vehicle scenario configs (multiple vehicles interacting with same sources)
+4. Consider Vehicles 4+ continued (memory, learning, threshold logic)
 6. Numerical contouring (marching squares) for multi-source fields
 
 ## How to Run
