@@ -17,7 +17,7 @@ STATUS_BAR_HEIGHT = 32
 BG_COLOR = (20, 20, 30)
 STATUS_BG = (40, 40, 50)
 TEXT_COLOR = (200, 200, 200)
-MAX_TRAIL_LENGTH = 600000
+MAX_TRAIL_LENGTH = 10_000_000
 
 
 class App:
@@ -35,6 +35,7 @@ class App:
         self.screen_h = vc.window_height + STATUS_BAR_HEIGHT
         self.screen = pygame.display.set_mode((self.screen_w, self.screen_h))
         pygame.display.set_caption("Braitenberg Vehicles")
+        pygame.key.set_repeat(300, 30)
 
         self.camera = Camera(
             vc.center.x, vc.center.y, vc.zoom,
@@ -54,6 +55,7 @@ class App:
         self.trails: Dict[str, List[Tuple[float, float]]] = {
             v.name: [] for v in self.config.vehicles
         }
+        self._intensity_factor = 1.0
         self._panning = False
         self._pan_start = (0, 0)
 
@@ -62,8 +64,25 @@ class App:
         self.colors.update(self.config.colors)
 
     def _reset(self):
-        """Reload config and reset simulation."""
-        old_screen = self.screen
+        """Reload config and reset simulation, preserving camera and intensity."""
+        old_camera = self.camera
+        self.config = load_config(self.config_path)
+        self.simulation = Simulation(self.config)
+        # Preserve camera position/zoom
+        self.camera = old_camera
+        # Preserve intensity adjustments
+        if hasattr(self, '_intensity_factor'):
+            for field in self.simulation.environment.fields:
+                for source in field.sources:
+                    source.intensity *= self._intensity_factor
+        self.selected_vehicle = None
+        self.trails = {v.name: [] for v in self.config.vehicles}
+        self.colors = dict(renderer.DEFAULT_COLORS)
+        self.colors.update(self.config.colors)
+
+    def _full_reset(self):
+        """Full reset including camera and intensity."""
+        self._intensity_factor = 1.0
         self.config = load_config(self.config_path)
         self.simulation = Simulation(self.config)
         vc = self.config.view
@@ -142,7 +161,11 @@ class App:
                 self.simulation.step()
                 self._record_trails()
         elif key == pygame.K_r:
-            self._reset()
+            mods = pygame.key.get_mods()
+            if mods & pygame.KMOD_SHIFT:
+                self._full_reset()
+            else:
+                self._reset()
         elif key == pygame.K_l:
             self._load_new_file()
         elif key in (pygame.K_EQUALS, pygame.K_PLUS):
@@ -170,9 +193,9 @@ class App:
         elif key == pygame.K_h:
             self._home_camera()
         elif key == pygame.K_RIGHTBRACKET:
-            self._adjust_source_intensity(1.1)
+            self._adjust_source_intensity(1.000025)
         elif key == pygame.K_LEFTBRACKET:
-            self._adjust_source_intensity(1.0 / 1.1)
+            self._adjust_source_intensity(1.0 / 1.000025)
         elif key in (pygame.K_ESCAPE, pygame.K_q):
             self.running = False
 
@@ -190,6 +213,7 @@ class App:
         self.selected_vehicle = best_name
 
     def _adjust_source_intensity(self, factor: float):
+        self._intensity_factor *= factor
         for field in self.simulation.environment.fields:
             for source in field.sources:
                 source.intensity *= factor
@@ -307,7 +331,7 @@ class App:
                 intensity_str = f"  I={field.sources[0].intensity:.0f}"
                 break
 
-        text = f" {state}  |  Speed: {speed_str}  |  {time_str}{intensity_str}  |  {trail_str}  {field_str}  {contour_str}  |  [/]:intensity  Space:play  R:reset  Q:quit"
+        text = f" {state}  |  Speed: {speed_str}  |  {time_str}{intensity_str}  |  {trail_str}  {field_str}  {contour_str}  |  [/]:intensity  Space:play  R:reset  Shift+R:full reset  Q:quit"
         surf = self.font.render(text, True, TEXT_COLOR)
         self.screen.blit(surf, (8, self.screen_h - STATUS_BAR_HEIGHT + 8))
 

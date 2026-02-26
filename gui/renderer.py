@@ -106,7 +106,7 @@ def draw_trail(surface: pygame.Surface, camera: Camera,
     points = [camera.world_to_screen(x, y) for x, y in trail]
     n = len(points)
     for i in range(n - 1):
-        alpha = int(255 * (i + 1) / n)
+        alpha = 60 + int(195 * (i + 1) / n)
         c = (min(255, color[0]), min(255, color[1]), min(255, color[2]))
         # pygame doesn't support per-segment alpha easily, so just dim the color
         faded = (c[0] * alpha // 255, c[1] * alpha // 255, c[2] * alpha // 255)
@@ -154,7 +154,7 @@ def draw_field_overlay(surface: pygame.Surface, camera: Camera,
     surface.blit(overlay, (0, 0))
 
 
-CONTOUR_LEVELS = [25, 50, 100, 150, 200, 400]
+CONTOUR_LEVELS = [0.1, 0.2, 0.5, 1, 2, 5, 10, 25, 50, 100, 150, 200, 400, 800, 1500]
 
 
 def _contour_radius(source: Source, stimulus_level: float) -> Optional[float]:
@@ -215,11 +215,11 @@ def draw_field_contours(surface: pygame.Surface, camera: Camera,
 
             pygame.draw.circle(surface, line_color, (sx, sy), r_px, 1)
 
-            # Label at the right side of the contour
+            # Label at the right side of the contour — show distance
             label_x = sx + r_px + 3
             label_y = sy - 6
             if label_x < surface.get_width() - 40:
-                label_surf = label_font.render(f"{level}", True, line_color)
+                label_surf = label_font.render(f"d={r_world:.0f}", True, line_color)
                 surface.blit(label_surf, (label_x, label_y))
 
 

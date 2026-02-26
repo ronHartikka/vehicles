@@ -6,7 +6,7 @@
         "sources": [
           {
             "position": [200, 150],
-            "intensity": 273205,
+            "intensity": 158748,
             "radius": 12,
             "falloff": "inverse_square"
           }
@@ -28,7 +28,7 @@
 
   "vehicles": [
     {
-      "name": "R500",
+      "name": "R500", "enabled": false,
       "position": [200, -350],
       "heading": 3.1416,
       "body_radius": 6, "axle_width": 12,
@@ -37,8 +37,8 @@
         { "id": "SR", "sensor": "heat-sensor", "side": "right", "angle_offset": -0.3, "distance_from_center": 24 }
       ],
       "motors": [
-        { "id": "ML", "side": "left", "max_speed": 80.0, "gain": 1.0, "base_voltage": 5.0 },
-        { "id": "MR", "side": "right", "max_speed": 80.0, "gain": 1.0, "base_voltage": 4.0 }
+        { "id": "ML", "side": "left", "max_speed": 80.0, "gain": 1.0, "base_voltage": 1.26675 },
+        { "id": "MR", "side": "right", "max_speed": 80.0, "gain": 1.0, "base_voltage": 1.23325 }
       ],
       "connections": [
         { "from_sensor": "SL", "to_motor": "MR", "weight": 1.0 },
@@ -46,7 +46,7 @@
       ]
     },
     {
-      "name": "R750",
+      "name": "R750", "enabled": false,
       "position": [200, -600],
       "heading": 3.1416,
       "body_radius": 6, "axle_width": 12,
@@ -55,8 +55,8 @@
         { "id": "SR", "sensor": "heat-sensor", "side": "right", "angle_offset": -0.3, "distance_from_center": 24 }
       ],
       "motors": [
-        { "id": "ML", "side": "left", "max_speed": 80.0, "gain": 1.0, "base_voltage": 5.0 },
-        { "id": "MR", "side": "right", "max_speed": 80.0, "gain": 1.0, "base_voltage": 4.0 }
+        { "id": "ML", "side": "left", "max_speed": 80.0, "gain": 1.0, "base_voltage": 1.26675 },
+        { "id": "MR", "side": "right", "max_speed": 80.0, "gain": 1.0, "base_voltage": 1.23325 }
       ],
       "connections": [
         { "from_sensor": "SL", "to_motor": "MR", "weight": 1.0 },
@@ -64,7 +64,7 @@
       ]
     },
     {
-      "name": "R1000",
+      "name": "R1000", "enabled": false,
       "position": [200, -850],
       "heading": 3.1416,
       "body_radius": 6, "axle_width": 12,
@@ -73,8 +73,8 @@
         { "id": "SR", "sensor": "heat-sensor", "side": "right", "angle_offset": -0.3, "distance_from_center": 24 }
       ],
       "motors": [
-        { "id": "ML", "side": "left", "max_speed": 80.0, "gain": 1.0, "base_voltage": 5.0 },
-        { "id": "MR", "side": "right", "max_speed": 80.0, "gain": 1.0, "base_voltage": 4.0 }
+        { "id": "ML", "side": "left", "max_speed": 80.0, "gain": 1.0, "base_voltage": 1.26675 },
+        { "id": "MR", "side": "right", "max_speed": 80.0, "gain": 1.0, "base_voltage": 1.23325 }
       ],
       "connections": [
         { "from_sensor": "SL", "to_motor": "MR", "weight": 1.0 },
@@ -82,7 +82,7 @@
       ]
     },
     {
-      "name": "R1500",
+      "name": "R1500", "enabled": false,
       "position": [200, -1350],
       "heading": 3.1416,
       "body_radius": 6, "axle_width": 12,
@@ -91,8 +91,8 @@
         { "id": "SR", "sensor": "heat-sensor", "side": "right", "angle_offset": -0.3, "distance_from_center": 24 }
       ],
       "motors": [
-        { "id": "ML", "side": "left", "max_speed": 80.0, "gain": 1.0, "base_voltage": 5.0 },
-        { "id": "MR", "side": "right", "max_speed": 80.0, "gain": 1.0, "base_voltage": 4.0 }
+        { "id": "ML", "side": "left", "max_speed": 80.0, "gain": 1.0, "base_voltage": 1.3047525 },
+        { "id": "MR", "side": "right", "max_speed": 80.0, "gain": 1.0, "base_voltage": 1.2702475 }
       ],
       "connections": [
         { "from_sensor": "SL", "to_motor": "MR", "weight": 1.0 },
@@ -100,7 +100,115 @@
       ]
     },
     {
-      "name": "R2000",
+      "name": "R309.7",
+      "position": [200, -159.7],
+      "heading": 0,
+      "body_radius": 6, "axle_width": 12,
+      "sensor_mounts": [
+        { "id": "SL", "sensor": "heat-sensor", "side": "left", "angle_offset": 0.3, "distance_from_center": 24 },
+        { "id": "SR", "sensor": "heat-sensor", "side": "right", "angle_offset": -0.3, "distance_from_center": 24 }
+      ],
+      "motors": [
+        { "id": "ML", "side": "left", "max_speed": 80.0, "gain": 1.0, "base_voltage": 1.3047525 },
+        { "id": "MR", "side": "right", "max_speed": 80.0, "gain": 1.0, "base_voltage": 1.2702475 }
+      ],
+      "connections": [
+        { "from_sensor": "SL", "to_motor": "MR", "weight": 1.0 },
+        { "from_sensor": "SR", "to_motor": "ML", "weight": 1.0 }
+      ]
+    },
+    {
+      "name": "R310.4",
+      "position": [200, -160.4],
+      "heading": 0,
+      "body_radius": 6, "axle_width": 12,
+      "sensor_mounts": [
+        { "id": "SL", "sensor": "heat-sensor", "side": "left", "angle_offset": 0.3, "distance_from_center": 24 },
+        { "id": "SR", "sensor": "heat-sensor", "side": "right", "angle_offset": -0.3, "distance_from_center": 24 }
+      ],
+      "motors": [
+        { "id": "ML", "side": "left", "max_speed": 80.0, "gain": 1.0, "base_voltage": 1.3047525 },
+        { "id": "MR", "side": "right", "max_speed": 80.0, "gain": 1.0, "base_voltage": 1.2702475 }
+      ],
+      "connections": [
+        { "from_sensor": "SL", "to_motor": "MR", "weight": 1.0 },
+        { "from_sensor": "SR", "to_motor": "ML", "weight": 1.0 }
+      ]
+    },
+    {
+      "name": "R311.1",
+      "position": [200, -161.1],
+      "heading": 0,
+      "body_radius": 6, "axle_width": 12,
+      "sensor_mounts": [
+        { "id": "SL", "sensor": "heat-sensor", "side": "left", "angle_offset": 0.3, "distance_from_center": 24 },
+        { "id": "SR", "sensor": "heat-sensor", "side": "right", "angle_offset": -0.3, "distance_from_center": 24 }
+      ],
+      "motors": [
+        { "id": "ML", "side": "left", "max_speed": 80.0, "gain": 1.0, "base_voltage": 1.3047525 },
+        { "id": "MR", "side": "right", "max_speed": 80.0, "gain": 1.0, "base_voltage": 1.2702475 }
+      ],
+      "connections": [
+        { "from_sensor": "SL", "to_motor": "MR", "weight": 1.0 },
+        { "from_sensor": "SR", "to_motor": "ML", "weight": 1.0 }
+      ]
+    },
+    {
+      "name": "R311.9",
+      "position": [200, -161.9],
+      "heading": 0,
+      "body_radius": 6, "axle_width": 12,
+      "sensor_mounts": [
+        { "id": "SL", "sensor": "heat-sensor", "side": "left", "angle_offset": 0.3, "distance_from_center": 24 },
+        { "id": "SR", "sensor": "heat-sensor", "side": "right", "angle_offset": -0.3, "distance_from_center": 24 }
+      ],
+      "motors": [
+        { "id": "ML", "side": "left", "max_speed": 80.0, "gain": 1.0, "base_voltage": 1.3047525 },
+        { "id": "MR", "side": "right", "max_speed": 80.0, "gain": 1.0, "base_voltage": 1.2702475 }
+      ],
+      "connections": [
+        { "from_sensor": "SL", "to_motor": "MR", "weight": 1.0 },
+        { "from_sensor": "SR", "to_motor": "ML", "weight": 1.0 }
+      ]
+    },
+    {
+      "name": "R312.6",
+      "position": [200, -162.6],
+      "heading": 0,
+      "body_radius": 6, "axle_width": 12,
+      "sensor_mounts": [
+        { "id": "SL", "sensor": "heat-sensor", "side": "left", "angle_offset": 0.3, "distance_from_center": 24 },
+        { "id": "SR", "sensor": "heat-sensor", "side": "right", "angle_offset": -0.3, "distance_from_center": 24 }
+      ],
+      "motors": [
+        { "id": "ML", "side": "left", "max_speed": 80.0, "gain": 1.0, "base_voltage": 1.3047525 },
+        { "id": "MR", "side": "right", "max_speed": 80.0, "gain": 1.0, "base_voltage": 1.2702475 }
+      ],
+      "connections": [
+        { "from_sensor": "SL", "to_motor": "MR", "weight": 1.0 },
+        { "from_sensor": "SR", "to_motor": "ML", "weight": 1.0 }
+      ]
+    },
+    {
+      "name": "R313.3",
+      "position": [200, -163.3],
+      "heading": 0,
+      "body_radius": 6, "axle_width": 12,
+      "sensor_mounts": [
+        { "id": "SL", "sensor": "heat-sensor", "side": "left", "angle_offset": 0.3, "distance_from_center": 24 },
+        { "id": "SR", "sensor": "heat-sensor", "side": "right", "angle_offset": -0.3, "distance_from_center": 24 }
+      ],
+      "motors": [
+        { "id": "ML", "side": "left", "max_speed": 80.0, "gain": 1.0, "base_voltage": 1.3047525 },
+        { "id": "MR", "side": "right", "max_speed": 80.0, "gain": 1.0, "base_voltage": 1.2702475 }
+      ],
+      "connections": [
+        { "from_sensor": "SL", "to_motor": "MR", "weight": 1.0 },
+        { "from_sensor": "SR", "to_motor": "ML", "weight": 1.0 }
+      ]
+    },
+    {
+      "name": "R2000", "enabled": false,
       "position": [200, -1850],
       "heading": 3.1416,
       "body_radius": 6, "axle_width": 12,
@@ -109,8 +217,8 @@
         { "id": "SR", "sensor": "heat-sensor", "side": "right", "angle_offset": -0.3, "distance_from_center": 24 }
       ],
       "motors": [
-        { "id": "ML", "side": "left", "max_speed": 80.0, "gain": 1.0, "base_voltage": 5.0 },
-        { "id": "MR", "side": "right", "max_speed": 80.0, "gain": 1.0, "base_voltage": 4.0 }
+        { "id": "ML", "side": "left", "max_speed": 80.0, "gain": 1.0, "base_voltage": 1.26675 },
+        { "id": "MR", "side": "right", "max_speed": 80.0, "gain": 1.0, "base_voltage": 1.23325 }
       ],
       "connections": [
         { "from_sensor": "SL", "to_motor": "MR", "weight": 1.0 },
@@ -118,7 +226,7 @@
       ]
     },
     {
-      "name": "R3000",
+      "name": "R3000", "enabled": false,
       "position": [200, -2850],
       "heading": 3.1416,
       "body_radius": 6, "axle_width": 12,
@@ -127,8 +235,8 @@
         { "id": "SR", "sensor": "heat-sensor", "side": "right", "angle_offset": -0.3, "distance_from_center": 24 }
       ],
       "motors": [
-        { "id": "ML", "side": "left", "max_speed": 80.0, "gain": 1.0, "base_voltage": 5.0 },
-        { "id": "MR", "side": "right", "max_speed": 80.0, "gain": 1.0, "base_voltage": 4.0 }
+        { "id": "ML", "side": "left", "max_speed": 80.0, "gain": 1.0, "base_voltage": 1.26675 },
+        { "id": "MR", "side": "right", "max_speed": 80.0, "gain": 1.0, "base_voltage": 1.23325 }
       ],
       "connections": [
         { "from_sensor": "SL", "to_motor": "MR", "weight": 1.0 },
@@ -143,8 +251,8 @@
   },
 
   "view": {
-    "center": [200, -800],
-    "zoom": 0.04,
+    "center": [200, -50],
+    "zoom": 0.4,
     "window_width": 1024,
     "window_height": 768
   },

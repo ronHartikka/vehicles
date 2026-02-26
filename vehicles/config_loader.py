@@ -50,6 +50,8 @@ def load_config(path: str) -> ScenarioConfig:
     # Vehicles
     vehicles = []
     for vd in data["vehicles"]:
+        if not vd.get("enabled", True):
+            continue
         mounts = [
             SensorMount(
                 id=m["id"],
