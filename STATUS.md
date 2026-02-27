@@ -176,6 +176,14 @@ Key findings:
       3. The balance between bias curvature and source capture determines whether the vehicle escapes after each inner loop
     - **Path to discovery**: precessing rosette (tiny bias) → confirmed crossed-wiring circular orbit (symmetric base_voltage) → added strong clockwise bias → figure-8
 
+35. ✅ **Periodic orbit analysis: single-source figure-8 is a transient, not a periodic orbit.** Built `find_periodic_orbit.py` — a Poincaré section + shooting method solver with Floquet stability analysis (`scipy.optimize.fsolve` + `scipy.integrate.solve_ivp`). Used it on the `x1.042` speed-sweep vehicle (crossed wiring, bell response, small base_voltage bias).
+    - **Found the only periodic orbit: a stable circle** at radius ≈ 46 from source, period ≈ 6.7, converged to machine precision (residual 3×10⁻¹²).
+    - **Continuation sweep** (I = 100,000–300,000): the circular orbit family exists across the full range. Stability bifurcation at I ≈ 112,000 — unstable below, stable above. Higher I → larger radius, stronger stability.
+    - **Floquet multipliers** at I = 160,725: λ = −0.497 ± 0.089i, |λ| = 0.505. Perturbations halve each orbit — strongly stable.
+    - **The figure-8 is a transient**: the inner lobe follows partial revolutions of this stable circle. The outer lobe is driven by base-voltage turning bias. Precession occurs because the radially-symmetric single source provides no mechanism to lock the outer lobe's orientation. The trajectory eventually collapses onto the circular orbit.
+    - **Conclusion**: closed single-source figure-8 requires breaking rotational symmetry (e.g., two sources). See [docs/periodic-orbit-analysis.md](docs/periodic-orbit-analysis.md).
+    - **New dependencies**: `scipy`, `numpy`, `matplotlib` added to `requirements.txt`.
+
 ### Vehicle 4 Triangular Configs
 
 | File | Vehicle Name | Wiring | Response | Behavior |
