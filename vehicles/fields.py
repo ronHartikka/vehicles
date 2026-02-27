@@ -21,6 +21,10 @@ def _exterior_falloff(source: Source, distance: float) -> float:
 
 def source_contribution(point: Point, source: Source) -> float:
     """Compute stimulus contribution from a single source at a point."""
+    # Linear gradient: stimulus = intensity * (x - source_x). No distance dependence.
+    if source.falloff == "linear_gradient":
+        return source.intensity * (point.x - source.position.x)
+
     dx = point.x - source.position.x
     dy = point.y - source.position.y
     distance = math.sqrt(dx * dx + dy * dy)
