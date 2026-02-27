@@ -184,6 +184,13 @@ Key findings:
     - **Conclusion**: closed single-source figure-8 requires breaking rotational symmetry (e.g., two sources). See [docs/periodic-orbit-analysis.md](docs/periodic-orbit-analysis.md).
     - **New dependencies**: `scipy`, `numpy`, `matplotlib` added to `requirements.txt`.
 
+36. ✅ **Closed periodic orbits found via gradient symmetry-breaking.** Added `linear_gradient` falloff type to `fields.py`: `stimulus = k * (x - x_source)`. Upgraded `find_periodic_orbit.py` with y-section support (free variables (x, theta)), `--n-crossings` for multi-crossing orbits, `--gradient`, and `--base-voltage-left/right` overrides.
+    - **Bias scan**: transition from circular capture to escaping 2-lobe figure-8 at B_L ~ 5.0, B_R ~ 4.0. Below this, bias too weak to escape source; above, vehicle traces 1 inner visit + 1 outer arc per cycle, precessing.
+    - **2-lobe closed orbit** (k=-0.0210, I=273205, B_L=5.0, B_R=4.0): period 162.0, |lambda|=0.256 (stable). One inner lobe near source + one outer arc. Heading advance = 2pi per period.
+    - **4-lobe closed orbit** (k=-0.0205, same base params): period 158.2, |lambda|=0.396 (stable). Two inner visits + two outer arcs. This is a period-2 orbit of the fundamental 2-lobe dynamics — precession per cycle = -180 deg, so 2 cycles = -360 deg = closure.
+    - **Comet-like, not figure-8**: both orbits have highly asymmetric lobes (tight inner pass near source, wide outer arc from bias). Not the classic symmetric figure-8 shape.
+    - See [docs/closed-orbits.md](docs/closed-orbits.md).
+
 ### Vehicle 4 Triangular Configs
 
 | File | Vehicle Name | Wiring | Response | Behavior |
