@@ -32,6 +32,12 @@ def compute_voltage(sensor_def: SensorDef, stimulus: float) -> float:
             return 0.0
         normalized = (stimulus - rf.peak_stimulus) / rf.peak_stimulus
         return rf.max_voltage * (1.0 - normalized * normalized)
+    elif rf.type == "gaussian":
+        # Gaussian bell: max_voltage * exp(-(stimulus - peak)^2 / (2 * sigma^2))
+        # Default sigma ≈ 0.6 * peak_stimulus gives same FWHM as bell response
+        sigma = rf.sigma if rf.sigma > 0 else rf.peak_stimulus / (2.0 * math.sqrt(math.log(2)))
+        diff = stimulus - rf.peak_stimulus
+        return rf.max_voltage * math.exp(-diff * diff / (2.0 * sigma * sigma))
     elif rf.type == "triangular":
         # Tent function: zero at 0, linear up to peak_stimulus, linear down to 2*peak_stimulus
         if stimulus <= 0 or stimulus >= 2 * rf.peak_stimulus:

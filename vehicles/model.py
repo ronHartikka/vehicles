@@ -32,12 +32,13 @@ class Environment:
 
 @dataclass
 class ResponseFunction:
-    type: str  # "linear", "threshold", "sigmoid", "logarithmic", "inverse", "bell", "triangular"
+    type: str  # "linear", "threshold", "sigmoid", "logarithmic", "inverse", "bell", "triangular", "gaussian"
     gain: float = 1.0
     threshold: float = 0.0
     midpoint: float = 0.0
     max_voltage: float = 10.0
     peak_stimulus: float = 100.0  # for bell: stimulus at which response peaks
+    sigma: float = 0.0  # for gaussian: width parameter; 0 = auto (FWHM matches bell)
 
 
 @dataclass
