@@ -33,7 +33,8 @@ class App:
         vc = self.config.view
         self.screen_w = vc.window_width
         self.screen_h = vc.window_height + STATUS_BAR_HEIGHT
-        self.screen = pygame.display.set_mode((self.screen_w, self.screen_h))
+        self.screen = pygame.display.set_mode((self.screen_w, self.screen_h),
+                                              pygame.RESIZABLE)
         pygame.display.set_caption("Braitenberg Vehicles")
         pygame.key.set_repeat(300, 30)
 
@@ -123,6 +124,14 @@ class App:
 
             elif event.type == pygame.KEYDOWN:
                 self._handle_key(event.key)
+
+            elif event.type == pygame.VIDEORESIZE:
+                self.screen_w = event.w
+                self.screen_h = event.h
+                self.screen = pygame.display.set_mode(
+                    (self.screen_w, self.screen_h), pygame.RESIZABLE)
+                self.camera.screen_w = self.screen_w
+                self.camera.screen_h = self.screen_h - STATUS_BAR_HEIGHT
 
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:  # left click
@@ -302,6 +311,13 @@ class App:
             renderer.draw_vehicle(sim_surface, self.camera, v,
                                   selected=is_selected, diagnostics=diag,
                                   body_color=color)
+
+        # Distance scale (from first source)
+        for field in self.simulation.environment.fields:
+            if field.sources:
+                renderer.draw_distance_scale(sim_surface, self.camera,
+                                             field.sources[0])
+                break
 
         # Info panel
         if self.selected_vehicle:

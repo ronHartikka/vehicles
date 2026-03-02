@@ -256,3 +256,76 @@ def draw_figure8_guide(surface: pygame.Surface, camera: Camera,
     cross_sx, cross_sy = camera.world_to_screen(
         source.position.x, source.position.y + R_peak)
     pygame.draw.circle(surface, guide_color, (cross_sx, cross_sy), 4, 0)
+
+
+def draw_distance_scale(surface: pygame.Surface, camera: Camera,
+                        source: Source):
+    """Draw a vertical distance scale to the right showing distance from source.
+
+    The scale is drawn as a vertical ruler along the right edge, with tick marks
+    and labels showing the distance from the source's horizontal line (y = source.y).
+    """
+    sw, sh = surface.get_size()
+    margin_right = 60  # pixels from right edge
+    scale_x = sw - margin_right
+
+    label_font = pygame.font.SysFont("monospace", 16, bold=True)
+    color = (180, 180, 200)
+    line_color = (80, 80, 100)
+
+    # Draw the vertical line
+    pygame.draw.line(surface, line_color, (scale_x, 0), (scale_x, sh), 1)
+
+    # Draw a horizontal reference line through the source
+    _, src_sy = camera.world_to_screen(source.position.x, source.position.y)
+    if 0 <= src_sy <= sh:
+        pygame.draw.line(surface, (80, 80, 100), (scale_x - 15, src_sy),
+                         (scale_x + 15, src_sy), 1)
+        label = label_font.render("S", True, (200, 200, 220))
+        surface.blit(label, (scale_x + 18, src_sy - 8))
+
+    # Choose tick spacing based on zoom level
+    # We want ticks roughly every 40-80 pixels apart
+    pixels_per_unit = camera.zoom
+    target_px = 60  # desired pixel spacing
+    target_world = target_px / pixels_per_unit
+
+    # Round to nice values: 10, 20, 50, 100, 200, 500, ...
+    nice = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000]
+    tick_world = nice[0]
+    for n in nice:
+        if n >= target_world:
+            tick_world = n
+            break
+    else:
+        tick_world = nice[-1]
+
+    # Find visible y range in world coords
+    _, wy_top = camera.screen_to_world(scale_x, 0)
+    _, wy_bot = camera.screen_to_world(scale_x, sh)
+    y_min = min(wy_top, wy_bot)
+    y_max = max(wy_top, wy_bot)
+
+    # Draw ticks at regular distance intervals from source
+    source_y = source.position.y
+    # Start from source_y and go up/down in tick_world steps
+    d_min = int((y_min - source_y) / tick_world) - 1
+    d_max = int((y_max - source_y) / tick_world) + 1
+
+    for d_idx in range(d_min, d_max + 1):
+        world_y = source_y + d_idx * tick_world
+        dist = abs(d_idx * tick_world)
+        _, sy = camera.world_to_screen(source.position.x, world_y)
+
+        if sy < 0 or sy > sh:
+            continue
+
+        # Tick mark
+        tick_len = 8 if d_idx % 5 == 0 else 4
+        pygame.draw.line(surface, color, (scale_x - tick_len, sy),
+                         (scale_x + tick_len, sy), 1)
+
+        # Label (show distance, not y-coordinate)
+        if d_idx != 0 and (d_idx % 2 == 0 or tick_world >= 50):
+            label = label_font.render(f"{dist:.0f}", True, color)
+            surface.blit(label, (scale_x + 12, sy - 8))
