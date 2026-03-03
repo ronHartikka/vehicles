@@ -1,0 +1,89 @@
+{
+  "environment": {
+    "fields": [
+      {
+        "type": "temperature",
+        "sources": [
+          {
+            "position": [200, 150],
+            "intensity": 273205,
+            "radius": 12,
+            "falloff": "inverse_square"
+          },
+          {
+            "position": [200, 150],
+            "intensity": -0.0210,
+            "radius": 0,
+            "falloff": "linear_gradient"
+          }
+        ]
+      }
+    ]
+  },
+
+  "sensors": {
+    "heat-sensor": {
+      "stimulus_unit": "K",
+      "response_function": {
+        "type": "bell",
+        "peak_stimulus": 100,
+        "max_voltage": 50
+      }
+    }
+  },
+
+  "vehicles": [
+    {
+      "name": "blue-phase0",
+      "position": [-52.922, -100],
+      "heading": 2.608,
+      "body_radius": 6, "axle_width": 12,
+      "sensor_mounts": [
+        { "id": "SL", "sensor": "heat-sensor", "side": "left", "angle_offset": 0.3, "distance_from_center": 24 },
+        { "id": "SR", "sensor": "heat-sensor", "side": "right", "angle_offset": -0.3, "distance_from_center": 24 }
+      ],
+      "motors": [
+        { "id": "ML", "side": "left", "max_speed": 80.0, "gain": 1.0, "base_voltage": 5.0 },
+        { "id": "MR", "side": "right", "max_speed": 80.0, "gain": 1.0, "base_voltage": 4.0 }
+      ],
+      "connections": [
+        { "from_sensor": "SL", "to_motor": "MR", "weight": 1.0 },
+        { "from_sensor": "SR", "to_motor": "ML", "weight": 1.0 }
+      ]
+    },
+    {
+      "name": "red-phase81",
+      "position": [176.393, -147.036],
+      "heading": 3.2536,
+      "body_radius": 6, "axle_width": 12,
+      "sensor_mounts": [
+        { "id": "SL", "sensor": "heat-sensor", "side": "left", "angle_offset": 0.3, "distance_from_center": 24 },
+        { "id": "SR", "sensor": "heat-sensor", "side": "right", "angle_offset": -0.3, "distance_from_center": 24 }
+      ],
+      "motors": [
+        { "id": "ML", "side": "left", "max_speed": 80.0, "gain": 1.0, "base_voltage": 5.0 },
+        { "id": "MR", "side": "right", "max_speed": 80.0, "gain": 1.0, "base_voltage": 4.0 }
+      ],
+      "connections": [
+        { "from_sensor": "SL", "to_motor": "MR", "weight": 1.0 },
+        { "from_sensor": "SR", "to_motor": "ML", "weight": 1.0 }
+      ]
+    }
+  ],
+
+  "simulation": {
+    "dt": 0.01,
+    "method": "euler"
+  },
+
+  "view": {
+    "center": [90, 55],
+    "zoom": 0.45,
+    "window_width": 1024,
+    "window_height": 768
+  },
+
+  "colors": {
+    "temperature": [255, 80, 40]
+  }
+}

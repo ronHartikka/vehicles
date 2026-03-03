@@ -199,6 +199,11 @@ Key findings:
 | `vehicle_4a_triangular_multi.json` | R=195..R=225 | uncrossed | triangular (peak=100, max_V=50) | 7 vehicles at different distances. First 2 orbit, rest escape. |
 | `vehicle_4a_triangular_fig8.json` | R500–R3000 | crossed | bell (peak=100, max_V=50), B=5.0/4.0, I=273205, sensor_arm=24 | **Repeating figure-8!** Blue vehicle loops around source and back, multiple passes. |
 
+37. ✅ **2-lobe closed orbit config created and visualized.** `configs/vehicle_4a_2lobe_closed_orbit.json` places a single vehicle exactly on the stable fixed point of the 2-lobe orbit (B_L=5.0, B_R=4.0, I=273205, gradient k=-0.0210, starting x=-52.922, y=-100, θ=2.608 rad). Two key findings from analysis:
+    - **Not topologically a figure-8**: the orbit has **14 self-intersection points per period**, not 1. The "2-lobe" label refers to 2 Poincaré section crossings (y=-100) per period, not the visual shape. The orbit is a dense spirograph-like interlaced curve with multiple passes near the source each period.
+    - **Mirror symmetry is impossible** for this vehicle type: the turning bias β = B_L/B_R gives the vehicle fixed chirality. Unlike a Kepler orbit (force depends only on position, time-reversal symmetric, angular momentum conserved), this system has heading-dependent dynamics and no time-reversal symmetry. A symmetric figure-8 would require the vehicle to curve opposite ways in the two lobes, which a fixed β cannot provide.
+    - **Braitenberg's Figure 7** (symmetric figure-8, single source) remains unexplained. Whether it depicts a true periodic orbit or an idealized schematic is an open question. Figure-8 search tabled. See [FIGURE8_STATUS.md](FIGURE8_STATUS.md).
+
 ## Next Steps
 
 1. Characterize figure-8 stability and parameter sensitivity (how wide is the parameter window?)
