@@ -15,6 +15,13 @@ def _exterior_falloff(source: Source, distance: float) -> float:
         return source.intensity * math.exp(
             -distance * distance / (2.0 * source.sigma * source.sigma)
         )
+    elif source.falloff == "disk":
+        if source.cutoff_radius <= 0:
+            raise ValueError("disk falloff requires cutoff_radius > 0")
+        if distance >= source.cutoff_radius:
+            return 0.0
+        t = distance / source.cutoff_radius
+        return source.intensity * (1.0 - t * t)
     else:
         raise ValueError(f"Unknown falloff: {source.falloff}")
 

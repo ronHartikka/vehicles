@@ -20,9 +20,10 @@ def load_config(path: str) -> ScenarioConfig:
             Source(
                 position=Point(*s["position"]),
                 intensity=s["intensity"],
-                radius=s["radius"],
+                radius=s.get("radius", 0.0),
                 falloff=s["falloff"],
                 sigma=s.get("sigma", 1.0),
+                cutoff_radius=s.get("cutoff_radius", 0.0),
             )
             for s in fd["sources"]
         ]
@@ -41,6 +42,7 @@ def load_config(path: str) -> ScenarioConfig:
             max_voltage=rf_data.get("max_voltage", 10.0),
             peak_stimulus=rf_data.get("peak_stimulus", 100.0),
             sigma=rf_data.get("sigma", 0.0),
+            output_bias=rf_data.get("output_bias", 0.0),
         )
         sensor_defs[name] = SensorDef(
             name=name,

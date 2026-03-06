@@ -204,12 +204,25 @@ Key findings:
     - **Mirror symmetry is impossible** for this vehicle type: the turning bias β = B_L/B_R gives the vehicle fixed chirality. Unlike a Kepler orbit (force depends only on position, time-reversal symmetric, angular momentum conserved), this system has heading-dependent dynamics and no time-reversal symmetry. A symmetric figure-8 would require the vehicle to curve opposite ways in the two lobes, which a fixed β cannot provide.
     - **Braitenberg's Figure 7** (symmetric figure-8, single source) remains unexplained. Whether it depicts a true periodic orbit or an idealized schematic is an open question. Figure-8 search tabled. See [FIGURE8_STATUS.md](FIGURE8_STATUS.md).
 
+38. ✅ **Disk field type added.** New `falloff: "disk"` for `Source`: field is quadratic within a cutoff radius, zero beyond. `F(d) = I × (1 - (d/r)²)` for d < r, 0 otherwise. Smooth falloff, zero at boundary. Requires `cutoff_radius > 0` in config. Added `cutoff_radius` field to `Source` model and handling in `fields.py` and `config_loader.py`.
+
+39. ✅ **Sensor `output_bias` added.** `ResponseFunction` now has `output_bias` (default 0.0). It is added to the raw sensor output after the response function, before passing to the motor. Can be negative (inhibits the motor). Motor still clamps at `max(0, ...)`. The entire `compute_voltage` function was refactored to compute `raw` then return `raw + rf.output_bias`. This enables asymmetric turning without asymmetric motor `base_voltage`, using two sensor definitions (e.g. `heat-sensor-L` with `output_bias=+0.35` drives `MR`, `heat-sensor-R` with `output_bias=-0.35` drives `ML`).
+
+40. 🔲 **Figure 7 oval orbit (in progress).** Goal: reproduce Braitenberg Figure 7 — a long oval orbit (approximately 4:1 aspect ratio) of a Vehicle 4a between two sources. Design:
+    - Two disk sources at (100, 300) and (500, 300), `cutoff_radius=120`.
+    - 4-segment orbit: two flat circular arcs (curvature from bias ΔV=0.7V) + two sharp turns near each source (curvature from gaussian sensor response).
+    - Crossed wiring (SL→MR, SR→ML): vehicle attracted to sources → correct U-turns.
+    - Two sensor definitions with asymmetric `output_bias` (±0.35V): outside disk ΔV=0.7V from bias; inside disk, symmetric field contribution cancels → still ΔV=0.7V (no spurious speed-up).
+    - Gaussian sensor response (peak=100, max_V=50, σ=20) for smooth curvature inside disk.
+    - Config: `configs/vehicle_4a_figure7_oval.json`. Status: orbit not yet closed — simultaneous sensor entry (vehicle approaches source disk nearly head-on → both sensors fire together → ΔV≈0 → no turn). Next step: adjust approach angle or disk geometry.
+
 ## Next Steps
 
-1. Characterize figure-8 stability and parameter sensitivity (how wide is the parameter window?)
-2. Create `configs/vehicle_1.json` (single sensor, straight line)
-3. Multi-vehicle scenario configs (multiple vehicles interacting with same sources)
-4. Consider Vehicles 4+ continued (memory, learning, threshold logic)
+1. Close the Figure 7 oval orbit: resolve simultaneous-sensor-entry problem (try adjusting orbit height, disk radius, or sensor arm angle).
+2. Characterize figure-8 stability and parameter sensitivity (how wide is the parameter window?)
+3. Create `configs/vehicle_1.json` (single sensor, straight line)
+4. Multi-vehicle scenario configs (multiple vehicles interacting with same sources)
+5. Consider Vehicles 4+ continued (memory, learning, threshold logic)
 6. Numerical contouring (marching squares) for multi-source fields
 
 ## How to Run

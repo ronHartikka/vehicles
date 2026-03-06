@@ -16,7 +16,8 @@ class Source:
     intensity: float
     radius: float
     falloff: str  # "inverse_square", "inverse_linear", "constant", "gaussian"
-    sigma: float = 1.0  # only used for gaussian
+    sigma: float = 1.0  # only used for gaussian falloff
+    cutoff_radius: float = 0.0  # only used for disk falloff: field is zero beyond this radius
 
 
 @dataclass
@@ -38,7 +39,8 @@ class ResponseFunction:
     midpoint: float = 0.0
     max_voltage: float = 10.0
     peak_stimulus: float = 100.0  # for bell: stimulus at which response peaks
-    sigma: float = 0.0  # for gaussian: width parameter; 0 = auto (FWHM matches bell)
+    sigma: float = 0.0       # for gaussian: width parameter; 0 = auto (FWHM matches bell)
+    output_bias: float = 0.0  # added to response before passing to motor; can be negative
 
 
 @dataclass
