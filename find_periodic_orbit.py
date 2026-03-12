@@ -91,13 +91,12 @@ def make_ode_rhs(config, vehicle):
 # Poincare section events
 # ---------------------------------------------------------------------------
 
-def make_poincare_event(section_type="theta", section_value=0.0):
+def make_poincare_event(section_type="theta", section_value=0.0, direction=1):
     """Create event function for Poincare section.
 
-    section_type='theta': detects sin(theta - section_value) = 0,
-        direction +1 (heading crosses section_value going CCW).
-    section_type='y': detects y - section_value = 0,
-        direction +1 (y increasing at crossing).
+    section_type='theta': detects sin(theta - section_value) = 0.
+    section_type='y': detects y - section_value = 0.
+    direction: +1 (CCW/increasing) or -1 (CW/decreasing).
     """
     if section_type == "theta":
         def event(t, state):
@@ -107,7 +106,7 @@ def make_poincare_event(section_type="theta", section_value=0.0):
             return state[1] - section_value
 
     event.terminal = True
-    event.direction = 1
+    event.direction = direction
     return event
 
 
@@ -375,7 +374,7 @@ def continuation_sweep(fixed_point, config, vehicle, param_name,
                 m.base_voltage = original_base_voltages[j] * pval
 
         rhs = make_ode_rhs(config, vehicle)
-        event = make_poincare_event(section_type, section_value)
+        event = make_poincare_event(section_type, section_value, direction=1)
 
         try:
             fp, period, info = find_periodic_orbit(
@@ -539,6 +538,9 @@ def main():
     parser.add_argument('--n-crossings', type=int, default=1,
                         help='Section crossings per period: 1=circle, '
                              '2=figure-8 (default: 1)')
+    parser.add_argument('--direction', type=int, default=1, choices=[1, -1],
+                        help='Poincare section crossing direction: +1 (CCW) '
+                             'or -1 (CW/theta-decreasing) (default: 1)')
     parser.add_argument('--plot', action='store_true', help='Show plots')
     parser.add_argument('--verbose', action='store_true',
                         help='Verbose output')
@@ -629,7 +631,7 @@ def main():
     # Build ODE and event
     # ------------------------------------------------------------------
     rhs = make_ode_rhs(config, vehicle)
-    event = make_poincare_event(args.section, section_value)
+    event = make_poincare_event(args.section, section_value, args.direction)
 
     # ------------------------------------------------------------------
     # Shooting

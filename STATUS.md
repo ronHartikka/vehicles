@@ -216,9 +216,30 @@ Key findings:
     - Gaussian sensor response (peak=100, max_V=50, σ=20) for smooth curvature inside disk.
     - Config: `configs/vehicle_4a_figure7_oval.json`. Status: orbit not yet closed — simultaneous sensor entry (vehicle approaches source disk nearly head-on → both sensors fire together → ΔV≈0 → no turn). Next step: adjust approach angle or disk geometry.
 
+41. 🔲 **Figure 7 oval orbit — Approach 2 (git branch `figure7-approach-2`).** New design on a separate branch:
+    - **Design**: One constant wheel (right, base_voltage=20), single left sensor wired ipsilaterally to left motor. Left sensor on perpendicular arm pointing left (angle_offset=-π/2, distance=15). Linear sensor response (gain=11). Inverse-square field (`falloff: "inverse_square"`, radius=5). Two sources at (100,300) and (900,300) — 800px apart. Target orbit: elongated oval occupying ~50% of source separation.
+    - **Config**: `configs/vehicle_figure7_approach2.json` on branch `figure7-approach-2`.
+    - **Orbit mechanics**: Left wheel faster → CW turn in physics coords (y-down GUI). On flat arcs the sensor points away from sources → low field → left ≈ right → straight. At perihelions the left sensor swings toward the near source → high field → left motor gets extra voltage → CW turn → U-turn. Clean design with only one sensor and one field.
+    - **Periodic orbit found** (Poincaré section + shooting method). At intensity=10000, gain=11: fixed point y=440.19, period≈50.4, λ₁=3.977, λ₂=0.251 (saddle). Orbit has approximately 2:1 aspect ratio, major axis ~400px (50% of source separation). Visually cleanest orbit in the sweep.
+    - **Stability sweep results** (theta=0 Poincaré section, direction=-1 for CW orbit):
+
+      | intensity | λ₁     | trace  | fixed point y |
+      |-----------|--------|--------|---------------|
+      | 1,000     | 684.8  | ~685   | 402.758       |
+      | 10,000    | 3.977  | 4.228  | 440.187       |
+      | 25,000    | 1.314  | 2.075  | 373.184       |
+      | 35,000    | 1.145  | 2.018  | 355.010       |
+      | 42,000    | 1.095  | 2.008  | 347.102       |
+      | 46,000    | 1.076  | 2.005  | 343.615       |
+
+    - **Key finding — saddle-node bifurcation**: The elongated orbit (fixed point ~y=343) and a circular orbit (fixed point ~y=341) converge in phase space as intensity increases toward ~47000-50000. Trace→2 from above for both. Before trace reaches 2, the two fixed points merge and annihilate (saddle-node bifurcation). **det(J)≈1 always** (area-preserving Poincaré map): λ₁×λ₂=1, so stability requires complex eigenvalues (|trace|<2), but the orbit disappears via bifurcation before crossing that threshold. No stable elongated orbit is achievable with this ipsilateral + constant-wheel design.
+    - **`find_periodic_orbit.py` updated**: Added `--direction` CLI argument (choices: +1/-1) to support CW orbits where theta decreases. The theta=0 section fires with direction=-1 for this vehicle.
+    - **Next step**: Either (a) accept instability at intensity=10000 and demonstrate one clean loop for the book figure, OR (b) change wiring/sensor geometry to break the area-preserving constraint and achieve a true stable attractor.
+
 ## Next Steps
 
-1. Close the Figure 7 oval orbit: resolve simultaneous-sensor-entry problem (try adjusting orbit height, disk radius, or sensor arm angle).
+1. Figure 7 approach 2: decide whether to accept the unstable orbit at intensity=10000 (visually cleanest) or redesign for stability. Options: add a second sensor/connection to break area-preservation, use asymmetric base voltages, or use crossed wiring.
+2. Close the Figure 7 oval orbit (approach 1): resolve simultaneous-sensor-entry problem (try adjusting orbit height, disk radius, or sensor arm angle).
 2. Characterize figure-8 stability and parameter sensitivity (how wide is the parameter window?)
 3. Create `configs/vehicle_1.json` (single sensor, straight line)
 4. Multi-vehicle scenario configs (multiple vehicles interacting with same sources)
