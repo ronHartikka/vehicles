@@ -216,7 +216,7 @@ Key findings:
     - Gaussian sensor response (peak=100, max_V=50, σ=20) for smooth curvature inside disk.
     - Config: `configs/vehicle_4a_figure7_oval.json`. Status: orbit not yet closed — simultaneous sensor entry (vehicle approaches source disk nearly head-on → both sensors fire together → ΔV≈0 → no turn). Next step: adjust approach angle or disk geometry.
 
-41. 🔲 **Figure 7 oval orbit — Approach 2 (git branch `figure7-approach-2`).** New design on a separate branch:
+41. ✅ **Figure 7 oval orbit — Approach 2 (git branch `figure7-approach-2`).** New design on a separate branch:
     - **Design**: One constant wheel (right, base_voltage=20), single left sensor wired ipsilaterally to left motor. Left sensor on perpendicular arm pointing left (angle_offset=-π/2, distance=15). Linear sensor response (gain=11). Inverse-square field (`falloff: "inverse_square"`, radius=5). Two sources at (100,300) and (900,300) — 800px apart. Target orbit: elongated oval occupying ~50% of source separation.
     - **Config**: `configs/vehicle_figure7_approach2.json` on branch `figure7-approach-2`.
     - **Orbit mechanics**: Left wheel faster → CW turn in physics coords (y-down GUI). On flat arcs the sensor points away from sources → low field → left ≈ right → straight. At perihelions the left sensor swings toward the near source → high field → left motor gets extra voltage → CW turn → U-turn. Clean design with only one sensor and one field.
@@ -236,10 +236,17 @@ Key findings:
     - **`find_periodic_orbit.py` updated**: Added `--direction` CLI argument (choices: +1/-1) to support CW orbits where theta decreases. The theta=0 section fires with direction=-1 for this vehicle.
     - **Next step**: Either (a) accept instability at intensity=10000 and demonstrate one clean loop for the book figure, OR (b) change wiring/sensor geometry to break the area-preserving constraint and achieve a true stable attractor.
 
+42. ✅ **Figure 7 oval orbit — Approach 3 SOLVED (git branch `figure7-approach-3`).** Stable wide oval orbit achieved. Config: `configs/vehicle_figure7_approach3.json`.
+    - **Design**: Two sensors (SL outside/left at angle_offset=−π/2, SR inside/right at +π/2), both distance=24. Differential wiring: SL→ML(+1), SL→MR(−1), SR→ML(−1), SR→MR(+1). Both base_voltage=50. Center speed = base = constant always; only ΔV varies.
+    - **Field**: `inverse_linear` falloff (F=I/d), I=5000, radius=5. Two sources at (100,300) and (900,300).
+    - **Sensor response**: Gaussian, peak_stimulus=34, max_voltage=15, sigma=8 (for both sensors).
+    - **Stability mechanism**: On the long flat arcs, SL (outer arm) sees more distant-source flux than SR (inner arm) → SL−SR > 0 → CW curvature maintained. North drift → both sensors weaken equally → net decrease in ΔV → orbit expands back toward sources ✓. South drift → inverse: orbit contracts ✓. Bilateral arc stability confirmed.
+    - **Orbit**: Wide oval (approximately 800px wide × 300px tall, ~2.7:1 aspect ratio), encompassing both sources. Clear convergence — orbit visually narrows to a stable closed curve within several revolutions. Starting position y=481 (below midline) required for stable entry.
+    - **Shape**: Slightly eye-shaped with flat arcs on north and south sides; sharp U-turns near each source. Qualifies as a Braitenberg Figure 7 analog.
+
 ## Next Steps
 
-1. Figure 7 approach 2: decide whether to accept the unstable orbit at intensity=10000 (visually cleanest) or redesign for stability. Options: add a second sensor/connection to break area-preservation, use asymmetric base voltages, or use crossed wiring.
-2. Close the Figure 7 oval orbit (approach 1): resolve simultaneous-sensor-entry problem (try adjusting orbit height, disk radius, or sensor arm angle).
+1. Close the Figure 7 oval orbit (approach 1): resolve simultaneous-sensor-entry problem (try adjusting orbit height, disk radius, or sensor arm angle).
 2. Characterize figure-8 stability and parameter sensitivity (how wide is the parameter window?)
 3. Create `configs/vehicle_1.json` (single sensor, straight line)
 4. Multi-vehicle scenario configs (multiple vehicles interacting with same sources)
