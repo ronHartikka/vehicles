@@ -1,0 +1,91 @@
+{
+  "_comment": [
+    "Single-source figure-8: 4-sensor biphasic design.",
+    "Inner lobe (near source): near sensors dominate → L faster, R slower → CCW arc around source.",
+    "Outer lobe (far from source): far sensors dominate → R faster, L slower → CW return arc.",
+    "Transition radius d_cross ≈ 333px (where gaussian ≈ inverse output).",
+    "Near: gaussian peak_stim=50 → peak at F=50 → d=I/50=100px from source.",
+    "Far: inverse gain=6 → output=6/(1+F), highest when F≈0 (far from source).",
+    "Both sensor pairs at ±π/2 (perpendicular to heading), arm=24px.",
+    "Wiring: SL_near→ML(+1), SR_near→MR(-1), SL_far→ML(-1), SR_far→MR(+1).",
+    "Base voltage symmetric (B=50 both motors). No inherent turning bias.",
+    "Starting position: d=333px south of source, heading east (just outside transition zone)."
+  ],
+
+  "environment": {
+    "fields": [
+      {
+        "type": "temperature",
+        "sources": [
+          {
+            "position": [500, 300],
+            "intensity": 4800,
+            "radius": 5,
+            "falloff": "inverse_linear"
+          }
+        ]
+      }
+    ]
+  },
+
+  "sensors": {
+    "heat-near": {
+      "stimulus_unit": "K",
+      "response_function": {
+        "type": "gaussian",
+        "peak_stimulus": 50,
+        "max_voltage": 0.93,
+        "sigma": 30
+      }
+    },
+    "heat-far": {
+      "stimulus_unit": "K",
+      "response_function": {
+        "type": "inverse",
+        "gain": 6
+      }
+    }
+  },
+
+  "vehicles": [
+    {
+      "name": "fig8",
+      "position": [500, 700],
+      "heading": 0.0,
+      "body_radius": 6,
+      "axle_width": 12,
+      "sensor_mounts": [
+        { "id": "SL_near", "sensor": "heat-near", "side": "left",  "angle_offset": -1.5708, "distance_from_center": 24 },
+        { "id": "SR_near", "sensor": "heat-near", "side": "right", "angle_offset":  1.5708, "distance_from_center": 24 },
+        { "id": "SL_far",  "sensor": "heat-far",  "side": "left",  "angle_offset": -1.5708, "distance_from_center": 24 },
+        { "id": "SR_far",  "sensor": "heat-far",  "side": "right", "angle_offset":  1.5708, "distance_from_center": 24 }
+      ],
+      "motors": [
+        { "id": "ML", "side": "left",  "max_speed": 80.0, "gain": 1.0, "base_voltage": 8.0 },
+        { "id": "MR", "side": "right", "max_speed": 80.0, "gain": 1.0, "base_voltage": 8.0 }
+      ],
+      "connections": [
+        { "from_sensor": "SL_near", "to_motor": "ML", "weight":  1.0 },
+        { "from_sensor": "SR_near", "to_motor": "MR", "weight": -1.0 },
+        { "from_sensor": "SL_far",  "to_motor": "ML", "weight": -1.0 },
+        { "from_sensor": "SR_far",  "to_motor": "MR", "weight":  1.0 }
+      ]
+    }
+  ],
+
+  "simulation": {
+    "dt": 0.005,
+    "method": "euler"
+  },
+
+  "view": {
+    "center": [500, 300],
+    "zoom": 0.7,
+    "window_width": 1024,
+    "window_height": 768
+  },
+
+  "colors": {
+    "temperature": [255, 80, 40]
+  }
+}

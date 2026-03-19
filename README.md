@@ -81,6 +81,17 @@ The key insight: **same hardware, different wiring, different behavior.**
 | `vehicle_3b_explorer.json` | explorer-1 | crossed | inverse | Explorer |
 | `vehicle_4a.json` | vehicle-4a | uncrossed | bell | Orbits source |
 
+## Config Editor
+
+A GUI editor for creating and editing config files:
+
+```bash
+python config_editor.py                              # new blank config
+python config_editor.py configs/vehicle_4a.json      # open existing
+```
+
+Tabs for each config section (Environment, Sensors, Vehicles, Simulation, View, Colors, JSON). Add/remove/duplicate items in all lists, enum dropdowns for field types and response functions, color picker, and raw JSON editing. Save As to create variants.
+
 ## Configuration
 
 Scenarios are defined in JSON files. See `configs/vehicle_2a_fear.json` for a complete example.
@@ -104,7 +115,8 @@ configs/           JSON scenario files
 vehicles/          Simulation engine (pure Python, no pygame dependency)
 gui/               Pygame rendering and controls
 specs/             Design specifications
-main.py            Entry point
+main.py            Simulation entry point
+config_editor.py   GUI config editor (tkinter)
 ```
 
 ## License

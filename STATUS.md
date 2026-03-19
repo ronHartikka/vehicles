@@ -244,6 +244,8 @@ Key findings:
     - **Orbit**: Wide oval (approximately 800px wide × 300px tall, ~2.7:1 aspect ratio), encompassing both sources. Clear convergence — orbit visually narrows to a stable closed curve within several revolutions. Starting position y=481 (below midline) required for stable entry.
     - **Shape**: Slightly eye-shaped with flat arcs on north and south sides; sharp U-turns near each source. Qualifies as a Braitenberg Figure 7 analog.
 
+43. ✅ **Config Editor GUI** (`config_editor.py`). Standalone tkinter app for creating and editing config JSON files. No new dependencies (tkinter is stdlib). Tabs for Environment, Sensors, Vehicles, Simulation, View, Colors, and raw JSON. List editors with add/remove/duplicate/reorder for all nested structures (fields, sources, vehicles, sensor mounts, motors, connections). Enum dropdowns for falloff types, response types, sides, methods. Color picker with swatch preview. Dirty tracking, unsaved-changes warnings, Save As for creating variants. Sensor rename propagates to vehicle mount references. Run: `.venv/bin/python3 config_editor.py [configs/file.json]`.
+
 ## Next Steps
 
 1. Close the Figure 7 oval orbit (approach 1): resolve simultaneous-sensor-entry problem (try adjusting orbit height, disk radius, or sensor arm angle).

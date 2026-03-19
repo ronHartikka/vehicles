@@ -1,0 +1,78 @@
+{
+  "environment": {
+    "fields": [
+      {
+        "type": "temperature",
+        "sources": [
+          {
+            "position": [500, 300],
+            "intensity": 5000,
+            "radius": 5,
+            "falloff": "inverse_linear"
+          }
+        ]
+      }
+    ]
+  },
+
+  "sensors": {
+    "heat-near": {
+      "stimulus_unit": "K",
+      "response_function": {
+        "type": "gaussian",
+        "peak_stimulus": 10,
+        "max_voltage": 1.2,
+        "sigma": 12
+      }
+    },
+    "heat-far": {
+      "stimulus_unit": "K",
+      "response_function": {
+        "type": "inverse",
+        "gain": 6
+      }
+    }
+  },
+
+  "vehicles": [
+    {
+      "name": "fig8",
+      "position": [500, 595],
+      "heading": 0.0,
+      "body_radius": 6,
+      "axle_width": 12,
+      "sensor_mounts": [
+        { "id": "SL_near", "sensor": "heat-near", "side": "left",  "angle_offset": -1.5708, "distance_from_center": 24 },
+        { "id": "SR_near", "sensor": "heat-near", "side": "right", "angle_offset":  1.5708, "distance_from_center": 24 },
+        { "id": "SL_far",  "sensor": "heat-far",  "side": "left",  "angle_offset": -1.5708, "distance_from_center": 24 },
+        { "id": "SR_far",  "sensor": "heat-far",  "side": "right", "angle_offset":  1.5708, "distance_from_center": 24 }
+      ],
+      "motors": [
+        { "id": "ML", "side": "left",  "max_speed": 80.0, "gain": 1.0, "base_voltage": 50.0 },
+        { "id": "MR", "side": "right", "max_speed": 80.0, "gain": 1.0, "base_voltage": 50.0 }
+      ],
+      "connections": [
+        { "from_sensor": "SL_near", "to_motor": "ML", "weight":  1.0 },
+        { "from_sensor": "SR_near", "to_motor": "MR", "weight": -1.0 },
+        { "from_sensor": "SL_far",  "to_motor": "ML", "weight": -1.0 },
+        { "from_sensor": "SR_far",  "to_motor": "MR", "weight":  1.0 }
+      ]
+    }
+  ],
+
+  "simulation": {
+    "dt": 0.005,
+    "method": "euler"
+  },
+
+  "view": {
+    "center": [500, 300],
+    "zoom": 0.7,
+    "window_width": 1024,
+    "window_height": 768
+  },
+
+  "colors": {
+    "temperature": [255, 80, 40]
+  }
+}

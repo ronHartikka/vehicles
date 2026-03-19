@@ -1,0 +1,112 @@
+{
+  "environment": {
+    "fields": [
+      {
+        "type": "temperature",
+        "sources": [
+          { "position": [200, 300], "intensity": 5000, "radius": 10, "falloff": "inverse_linear" }
+        ]
+      },
+      {
+        "type": "light",
+        "sources": [
+          { "position": [400, 300], "intensity": 5000, "radius": 10, "falloff": "inverse_linear" }
+        ]
+      }
+    ]
+  },
+
+  "sensors": {
+    "heat-sensor": {
+      "stimulus_unit": "K",
+      "response_function": {
+        "type": "linear",
+        "gain": 1.0
+      }
+    },
+    "light-sensor": {
+      "stimulus_unit": "lux",
+      "response_function": {
+        "type": "linear",
+        "gain": 1.0
+      }
+    }
+  },
+
+  "vehicles": [
+    {
+      "name": "v-inner",
+      "position": [350, 300],
+      "heading": 3.14159,
+      "body_radius": 8,
+      "axle_width": 12,
+      "sensor_mounts": [
+        { "id": "SL", "sensor": "heat-sensor",  "side": "left",  "angle_offset":  0.3, "distance_from_center": 24 },
+        { "id": "SR", "sensor": "light-sensor", "side": "right", "angle_offset": -0.3, "distance_from_center": 24 }
+      ],
+      "motors": [
+        { "id": "ML", "side": "left",  "max_speed": 100.0, "gain": 1.0, "base_voltage": 0.0 },
+        { "id": "MR", "side": "right", "max_speed": 100.0, "gain": 1.0, "base_voltage": 0.0 }
+      ],
+      "connections": [
+        { "from_sensor": "SL", "to_motor": "ML", "weight": 1.0 },
+        { "from_sensor": "SR", "to_motor": "MR", "weight": 1.0 }
+      ]
+    },
+    {
+      "name": "v-mid",
+      "position": [330, 300],
+      "heading": 3.14159,
+      "body_radius": 8,
+      "axle_width": 12,
+      "sensor_mounts": [
+        { "id": "SL", "sensor": "heat-sensor",  "side": "left",  "angle_offset":  0.3, "distance_from_center": 24 },
+        { "id": "SR", "sensor": "light-sensor", "side": "right", "angle_offset": -0.3, "distance_from_center": 24 }
+      ],
+      "motors": [
+        { "id": "ML", "side": "left",  "max_speed": 100.0, "gain": 1.0, "base_voltage": 0.0 },
+        { "id": "MR", "side": "right", "max_speed": 100.0, "gain": 1.0, "base_voltage": 0.0 }
+      ],
+      "connections": [
+        { "from_sensor": "SL", "to_motor": "ML", "weight": 1.0 },
+        { "from_sensor": "SR", "to_motor": "MR", "weight": 1.0 }
+      ]
+    },
+    {
+      "name": "v-outer",
+      "position": [370, 300],
+      "heading": 3.14159,
+      "body_radius": 8,
+      "axle_width": 12,
+      "sensor_mounts": [
+        { "id": "SL", "sensor": "heat-sensor",  "side": "left",  "angle_offset":  0.3, "distance_from_center": 24 },
+        { "id": "SR", "sensor": "light-sensor", "side": "right", "angle_offset": -0.3, "distance_from_center": 24 }
+      ],
+      "motors": [
+        { "id": "ML", "side": "left",  "max_speed": 100.0, "gain": 1.0, "base_voltage": 0.0 },
+        { "id": "MR", "side": "right", "max_speed": 100.0, "gain": 1.0, "base_voltage": 0.0 }
+      ],
+      "connections": [
+        { "from_sensor": "SL", "to_motor": "ML", "weight": 1.0 },
+        { "from_sensor": "SR", "to_motor": "MR", "weight": 1.0 }
+      ]
+    }
+  ],
+
+  "simulation": {
+    "dt": 0.05,
+    "method": "euler"
+  },
+
+  "view": {
+    "center": [300, 300],
+    "zoom": 1.5,
+    "window_width": 1024,
+    "window_height": 768
+  },
+
+  "colors": {
+    "temperature": [255, 80, 40],
+    "light": [255, 240, 60]
+  }
+}
